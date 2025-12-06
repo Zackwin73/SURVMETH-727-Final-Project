@@ -1,0 +1,1043 @@
+---
+title: "727 Final Project (Draft)"
+author: "Zachary Winograd"
+date: "2025-11-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Set-up
+```{r packages}
+library(tidycensus)
+library(tidyverse)
+library(ggplot2)
+library(rvest)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(readr)
+library(stargazer)
+library(httr)
+library(jsonlite)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(tidytext)
+library(purrr)
+```
+
+
+
+Intro- American politics have grown more polirzied through the years and the public has grown pesitimistic on the priority of politicians and the policy they implement 
+
+- This is seen through Pew research that has seen distrust in potlicians to do thing in the interest of the general public contineu to drop
+
+- What we saw thru 2020 until 2024 is a pandemic and the aftermath
+
+- a pandemic didnt just leave a public health diaster but then lead to fincical crisis after trying to rebuild an economy that had to near shut down. 
+
+- At this time 
+
+- I take a look at Florida that saw their general election voting in 2016-20-24 increase overall throughout the state even as distrust increases the question stays that even if public distrust is high their is a reliance on the government to be their in these moments or is this number inflated due to certain counties and areas increases but the rural areas don't see this increase as much. I want to look if this is more about specific location increasing their vote % which see this increase of is this an overall understanding that even with distrust belief in the political system that thier is a belief that during this public crisis their is an overall belief that voting is something they need to do .
+
+- This paper takes a look specifically at Florida and its rising voter turnout comparing the counties across with the census ACS to see which counties are increasing their voter turnout out then exploring the demographics of these counties to explain which counties turnout larger to the last three election. 
+
+
+
+# Section 1 Poltical Distrust
+Show article or articles to show growing pains in politicians trust
+
+# 1.1 Distrust Pew data
+Data from pew showing distrust 
+
+Show the political distrust over the years data 
+
+```{r}
+
+library(readr)
+Pew_PD <- read.csv("Pew_PD.csv")
+
+```
+
+```{r}
+# 1. extract row 3 to use as column names
+new_names <- Pew_PD[3, ]
+
+# 2. assign these as column names
+colnames(Pew_PD) <- new_names
+
+# 3. delete the first 3 rows (1,2,3)
+Pew_PD <- Pew_PD[-c(1:3), ]
+
+# 4. clean row names
+rownames(Pew_PD) <- NULL
+```
+
+```{r}
+## 1. Parse the dates from m/d/yy
+Pew_PD$Date2 <- as.Date(Pew_PD$Date, format = "%m/%d/%y")
+
+## 2. Keep only rows between 2000 and 2024
+Pew_PD_2000 <- Pew_PD[!is.na(Pew_PD$Date2) &
+                      Pew_PD$Date2 >= as.Date("2000-01-01") &
+                      Pew_PD$Date2 <= as.Date("2024-12-31"), ]
+
+## 3. Make sure Individual polls is numeric
+Pew_PD_2000$Individual_polls <- as.numeric(
+  gsub("[%,]", "", Pew_PD_2000$`Individual polls`)
+)
+
+
+```
+
+Pew Plot from 2000-2024
+```{r}
+
+ ggplot(Pew_PD_2000, aes(x = Date2, y = Individual_polls)) +
+  geom_line(color = "steelblue", size = 1) +
+  geom_point(color = "steelblue", size = 2, alpha = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "darkred", size = 1) +
+  labs(
+    x = "Date",
+    y = "Individual Polls",
+    title = "Individual Polls Over Time (2000–2024)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+
+```
+
+
+# Section 2 Scraping Florida Election turnout data
+
+
+## 2.1 
+### 2016
+```{r eval=FALSE, include=FALSE}
+url_2016 <- "https://results.elections.myflorida.com/TurnoutRpt.asp?DATAMODE=&ElectionDate=11/8/2016"
+page_2016 <- read_html(url_2016)
+turnout_2016 <- page_2016 %>% html_table(fill = TRUE) %>% .[[1]]
+
+turnout_2016
+
+write.csv(turnout_2016, "turnout_2016.csv", row.names = FALSE)
+
+
+```
+
+```{r}
+turnout_2016<-read.csv("turnout_2016.csv")
+t16 <- turnout_2016[-1, ]          # remove first row
+colnames(t16) <- t16[1, ]          # make row 2 the header
+t16 <- t16[-1, ]                   # remove the old header row
+t16 <- dplyr::as_tibble(t16)       # convert to tibble
+
+#get rid of percent marks
+t16$`%Turnout` <- as.numeric(gsub("%", "", t16$`%Turnout`))
+
+
+
+```
+
+### 2020
+```{r eval=FALSE, include=FALSE}
+url_2020 <- "https://results.elections.myflorida.com/TurnoutRpt.asp?DATAMODE=&ElectionDate=11/3/2020"
+page_2020 <- read_html(url_2020)
+turnout_2020 <- page_2020 %>% html_table(fill = TRUE) %>% .[[1]]
+
+turnout_2020
+
+write.csv(turnout_2020, "turnout_2020.csv", row.names = FALSE)
+
+```
+
+clean 
+```{r}
+turnout_2020 <- read.csv("turnout_2020.csv", stringsAsFactors = FALSE)
+
+# Step 1: Remove the first row (junk row)
+t20 <- turnout_2020[-1, ]
+
+# Step 2: Make the NEW first row the header
+colnames(t20) <- t20[1, ]
+
+# Step 3: Remove that header row from the data
+t20 <- t20[-1, ]
+
+# Step 4: Reset row numbers and convert to tibble
+t20 <- dplyr::as_tibble(t20)
+
+t20 <- t20 %>%
+  rename(
+    VoterReg_2020 = `Voter Reg`,
+    Turnout_2020  = Turnout,
+    Pct_2020      = `%Turnout`
+  )
+
+t20$`Pct_2020` <- gsub("%", "", t20$`Pct_2020`)
+
+t20$Pct_2020 <- as.numeric(t20$`Pct_2020`)
+
+```
+
+
+### 2024
+```{r eval=FALSE, include=FALSE}
+url <- "https://results.elections.myflorida.com/TurnoutRpt.asp?DATAMODE=&ElectionDate=11/5/2024"
+page <- read_html(url)
+turnout_2024 <- page %>% html_table(fill = TRUE) %>% .[[1]]
+
+write.csv(turnout_2024, "turnout_2024.csv", row.names = FALSE)
+
+```
+
+
+```{r}
+turnout_2024<-read.csv("turnout_2024.csv")
+t24 <- turnout_2024[-1, ]
+colnames(t24) <- t24[1, ]
+t24 <- t24[-1, ]
+t24 <- dplyr::as_tibble(t24)
+t24$`%Turnout` <- as.numeric(gsub("%", "", t24$`%Turnout`))
+
+```
+
+
+## 2.2
+### Merge Voter Turnout between years
+```{r}
+names(t16) <- c("County", "VoterReg_2016", "Turnout_2016", "Pct_2016")
+names(t20) <- c("County", "VoterReg_2020", "Turnout_2020", "Pct_2020")
+names(t24) <- c("County", "VoterReg_2024", "Turnout_2024", "Pct_2024")
+
+merged_turnout_1 <- t16 %>%
+  left_join(t20, by = "County") %>%
+  left_join(t24, by = "County")
+
+```
+
+
+### Graph clean
+```{r}
+turnout_long <- merged_turnout_1 %>%
+  pivot_longer(
+    cols = starts_with("Pct_"),
+    names_to = "Year",
+    values_to = "TurnoutPct"
+  ) %>%
+  mutate(
+    Year = factor(
+      Year,
+      levels = c("Pct_2016", "Pct_2020", "Pct_2024"),
+      labels = c("2016", "2020", "2024")
+    )
+  )
+
+```
+
+#### Graph 
+```{r}
+ graph1<- ggplot(turnout_long, aes(x = Year, y = TurnoutPct, group = County)) +
+  geom_line(alpha = 0.4) +
+  geom_point(size = 2, alpha = 0.7) +
+  labs(
+    title = "County Turnout Progression (2016 → 2020 → 2024)",
+    x = "Election Year",
+    y = "Turnout Percentage"
+  ) +
+  theme_minimal()
+
+
+```
+
+
+
+```{r}
+graph1
+```
+
+
+```{r}
+library(plotly)
+library(dplyr)
+
+df <- turnout_long
+
+# Base plot
+p <- plot_ly(
+  df,
+  x = ~Year,
+  y = ~TurnoutPct,
+  type = "scatter",
+  mode = "markers",
+  color = ~County,
+  text = ~paste(
+    "County:", County,
+    "<br>Year:", Year,
+    "<br>Turnout:", TurnoutPct
+  ),
+  hoverinfo = "text"
+)
+
+# Build YEAR buttons
+year_buttons <- c(
+  list(
+    list(
+      label = "All Years",
+      method = "restyle",
+      args = list("transforms[0].value", unique(df$Year))
+    )
+  ),
+  lapply(sort(unique(df$Year)), function(y) {
+    list(
+      label = paste("Year", y),
+      method = "restyle",
+      args = list("transforms[0].value", y)
+    )
+  })
+)
+
+# Build COUNTY buttons
+county_buttons <- c(
+  list(
+    list(
+      label = "All Counties",
+      method = "restyle",
+      args = list("transforms[1].value", unique(df$County))
+    )
+  ),
+  lapply(sort(unique(df$County)), function(cn) {
+    list(
+      label = cn,
+      method = "restyle",
+      args = list("transforms[1].value", cn)
+    )
+  })
+)
+
+# FULL OPTION B IMPLEMENTATION — START BLANK
+p <- p %>% layout(
+  title = "Interactive County Turnout",
+
+  transforms = list(
+    # YEAR filter (default shows all years)
+    list(
+      type = "filter",
+      target = ~Year,
+      operation = "=",
+      value = unique(df$Year)
+    ),
+    # COUNTY filter (this is what makes the plot blank initially)
+    list(
+      type = "filter",
+      target = ~County,
+      operation = "=",
+      value = character(0)   # ← START WITH NOTHING SELECTED
+    )
+  ),
+
+  updatemenus = list(
+    # YEAR DROPDOWN
+    list(
+      type = "dropdown",
+      x = 0,
+      y = 1.15,
+      buttons = year_buttons
+    ),
+    # COUNTY DROPDOWN
+    list(
+      type = "dropdown",
+      x = 0.35,
+      y = 1.15,
+      buttons = county_buttons
+    )
+  )
+)
+
+p
+
+```
+
+
+```{r}
+
+graph1 <- ggplot(turnout_long, aes(
+  x = Year,
+  y = TurnoutPct,
+  color = County,
+  text = paste0(
+    "County: ", County, "<br>",
+    "Year: ", Year, "<br>",
+    "Turnout: ", TurnoutPct, "%"
+  )
+)) +
+  geom_point(
+    size = 2, 
+    alpha = 0.7,
+    position = position_jitter(width = 0, height = 1.5)  # spreads points apart
+  ) +
+  labs(
+    title = "County Turnout Across Elections (2016, 2020, 2024)",
+    x = "Election Year",
+    y = "Turnout Percentage"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
+graph1_interactive <- ggplotly(graph1, tooltip = "text")
+graph1_interactive
+
+
+```
+
+
+## Exploration of Voter Trends 
+```{r}
+
+#  Compute change from 2016 to 2024
+
+merged_turnout <- merged_turnout_1 %>%
+  mutate(
+    change_16_24 = Pct_2024 - Pct_2016,
+    direction_16_24 = case_when(
+      change_16_24 > 0 ~ "Up",
+      change_16_24 < 0 ~ "Down",
+      TRUE ~ "No Change"
+    )
+  )
+
+
+```
+
+```{r}
+# Count how many counties moved up/down/no change
+
+movement_summary <- merged_turnout %>%
+  count(direction_16_24)
+
+movement_summary
+
+movement_summary %>%
+  kable(
+    format = "html",
+    col.names = c("Direction", "Count"),
+    caption = "Number of Counties Moving Up, Down, or No Change (2016 → 2024)"
+  ) %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+```
+
+
+
+```{r}
+all_counties_change <- merged_turnout %>%
+  mutate(
+    change_16_24 = Pct_2024 - Pct_2016,
+    direction_16_24 = case_when(
+      change_16_24 > 0 ~ "Up",
+      change_16_24 < 0 ~ "Down",
+      TRUE ~ "No Change"
+    )
+  ) %>%
+  select(County, Pct_2016, Pct_2024, change_16_24, direction_16_24)
+
+all_counties_change
+```
+
+
+# Section 3 ACS census data & merge
+
+To examine what exactly could be going on I examine the the 2020 census data to look at what demographics 
+
+```{r}
+library(censusapi)
+library(dplyr)
+library(tidyr)
+
+key <- readLines("census-key.txt")
+Sys.setenv(CENSUS_KEY = key)
+
+vars <- c(
+  "NAME",
+
+  # Population + Age
+  "B01001_001E",   # total pop
+  "B01001_002E",   # male pop
+  "B01001_026E",   # female pop
+  "B01002_001E",   # median age
+
+  # Race
+  "B02001_002E",   # white
+  "B02001_003E",   # black
+  "B02001_005E",   # asian
+
+  # Hispanic
+  "B03003_003E",   # hispanic
+
+  # Income
+  "B19013_001E",   # median household income
+  "B19301_001E",   # per capita income
+
+  # Poverty
+  "B17001_001E",   # poverty base
+  "B17001_002E",   # poverty count
+
+  # Housing
+  "B25001_001E",   # total housing units
+  "B25077_001E",   # median home value
+  "B25064_001E"    # median rent
+)
+
+acs_2020_5yr <- getCensus(
+  name    = "acs/acs5",
+  vintage = 2020,
+  vars    = vars,
+  region  = "county:*",
+  regionin = "state:12"
+) %>%
+  rename(
+    pop               = B01001_001E,
+    male              = B01001_002E,
+    female            = B01001_026E,
+    median_age        = B01002_001E,
+    white             = B02001_002E,
+    black             = B02001_003E,
+    asian             = B02001_005E,
+    hispanic          = B03003_003E,
+    hh_income         = B19013_001E,
+    income_pc         = B19301_001E,
+    poverty_base      = B17001_001E,
+    poverty_count     = B17001_002E,
+    housing_units     = B25001_001E,
+    median_home_value = B25077_001E,
+    median_rent       = B25064_001E
+  ) %>%
+  mutate(
+    county = sub(", Florida", "", sub(" County", "", NAME)),
+    year = 2020
+  ) %>%
+  relocate(county, .after = NAME)
+
+head(acs_2020_5yr)
+
+```
+
+Cmobine vote percent between 2016 and 2020
+```{r}
+names(t16)
+names(t20)
+
+combined_vt_16_20 <- t16 %>%
+  select(County, Pct_2016) %>%
+  left_join(
+    t20 %>% select(County, Pct_2020),
+    by = "County"
+  ) %>%
+  mutate(
+    average_vote_percent = (Pct_2016 + Pct_2020) / 2
+  )
+
+combined_vt_16_20 <- combined_vt_16_20 %>%
+  rename(county = County)
+
+```
+
+```{r}
+final_census_merged <- acs_2020_5yr %>%
+  left_join(combined_vt_16_20, by = "county")
+
+```
+
+
+Regression model
+
+```{r}
+final_census_merged$average_vote_percent <-
+  as.numeric(final_census_merged$average_vote_percent)
+
+
+```
+
+```{r}
+model_avg <- lm(
+  average_vote_percent ~ 
+    pop +
+    male +
+    median_age +
+    white +
+    black +
+    asian +
+    hispanic +
+    hh_income +
+    income_pc +
+    poverty_base +
+    poverty_count +
+    housing_units +
+    median_home_value +
+    median_rent,
+  data = final_census_merged
+)
+
+summary(model_avg)
+```
+
+
+
+```{r, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
+library(modelsummary)
+
+modelsummary(
+  model_avg,
+  output = "gt",
+  title = "Regression Model: Average Vote Percent",
+  fmt = 6
+)
+```
+
+
+# Section 4 Explorig rate of change of voter tunrout and the number of covid cases in 2020
+## 4.1 data clean
+```{r}
+
+Florida_COVID_Cases_0<-read_csv("/Users/zacharywinograd/R Studios Folders/SURV 727/Final Project Folder/Florida_COVID_Cases_0.csv")
+
+fl_co<-Florida_COVID_Cases_0
+
+fl_co <- fl_co[-68, ]
+
+fl_co$County[fl_co$County == "Dade"] <- "Miami-Dade"
+
+co_change <- fl_co %>%
+  left_join(all_counties_change, by = "County")
+
+co_change$CasesAll <- as.numeric(gsub(",", "", co_change$CasesAll))
+
+co_change$CasesAll <- as.numeric(as.character(co_change$CasesAll))
+
+str(co_change$CasesAll)
+
+co_change <- co_change[-68, ]
+
+```
+## 4.2
+```{r}
+library(ggplot2)
+
+ggplot(co_change, aes(x = change_16_24, y = CasesAll, color = County)) +
+  geom_point(size = 3, alpha = 0.8) +
+  labs(
+    title = "COVID Cases vs Voter Turnout Change (2016 → 2024)",
+    x = "Voter Turnout Change (2016 → 2024)",
+    y = "COVID Cases (Total CasesAll)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 18),
+    legend.position = "none"  # hides the 67-county legend which would clutter the plot
+  )
+
+
+```
+
+## 4.3 plotly interactive visualization 
+```{r}
+library(ggplot2)
+library(plotly)
+library(htmlwidgets)
+
+co_change1 <- co_change %>%
+  dplyr::rename(
+    PctVoterTurnoutChange = change_16_24,
+    TotalCOVIDCases = CasesAll
+  )
+
+p <- ggplot(co_change1, aes(
+  x = PctVoterTurnoutChange,
+  y = TotalCOVIDCases,
+  color = County
+)) +
+  geom_point(size = 3, alpha = 0.8) +
+  labs(
+    title = "COVID Cases vs Voter Turnout Change (2016 → 2024)",
+    x = "Voter Turnout Change (2016 → 2024)",
+    y = "Total COVID Cases"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 18),
+    legend.position = "none"
+  )
+
+p_interactive <- ggplotly(p)
+p_interactive
+
+```
+
+
+# Section 5 Exploring NYT API and sentiment analysis
+
+## 5.1 NYT set up
+```{r eval=FALSE, include=FALSE}
+nyt_key <- readLines("nyt-key.txt")
+
+
+```
+
+```{r eval=FALSE, include=FALSE}
+url <- "https://api.nytimes.com/svc/search/v2/articlesearch.json"
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+nyt_data <- get_nyt_page(0, nyt_key)
+
+pages <- 0:5   # 6 pages = up to 60 articles
+nyt_list <- map(pages, ~get_nyt_page(.x, nyt_key))
+
+```
+
+```{r eval=FALSE, include=FALSE}
+library(httr)
+library(jsonlite)
+
+get_archive_month <- function(year, month, key) {
+  url <- paste0(
+    "https://api.nytimes.com/svc/archive/v1/",
+    year, "/", month, ".json"
+  )
+  
+  res <- GET(url, query = list(`api-key` = key))
+  jsonlite::fromJSON(content(res, as = "text", encoding = "UTF-8"), flatten = TRUE)
+}
+
+```
+
+## 5.2 running the Data
+
+fucniton pull one month
+```{r eval=FALSE, include=FALSE}
+get_archive_month <- function(year, month, key) {
+  url <- paste0(
+    "https://api.nytimes.com/svc/archive/v1/",
+    year, "/", month, ".json"
+  )
+  
+  res <- GET(url, query = list(`api-key` = key))
+  jsonlite::fromJSON(content(res, as = "text", encoding = "UTF-8"), flatten = TRUE)
+}
+
+```
+
+Extract relevant fields from one month
+```{r eval=FALSE, include=FALSE}
+extract_articles <- function(archive_json) {
+  docs <- archive_json$response$docs
+  
+  tibble(
+    headline = docs$headline.main,
+    abstract = docs$abstract,
+    lead = docs$lead_paragraph,
+    pub_date = docs$pub_date,
+    url = docs$web_url
+  )
+}
+
+```
+
+Poli filter
+
+```{r eval=FALSE, include=FALSE}
+library(httr)
+library(jsonlite)
+library(dplyr)
+library(tibble)
+library(stringr)
+
+`%||%` <- function(x, y) if (!is.null(x)) x else y
+
+get_archive_month <- function(year, month, key) {
+  url <- paste0(
+    "https://api.nytimes.com/svc/archive/v1/",
+    year, "/", month, ".json"
+  )
+  res <- GET(url, query = list(`api-key` = key))
+  jsonlite::fromJSON(content(res, as = "text", encoding="UTF-8"), flatten=TRUE)
+}
+
+extract_articles_safe <- function(archive_json) {
+  if (is.null(archive_json$response$docs)) {
+    return(tibble(
+      headline = character(),
+      abstract = character(),
+      lead = character(),
+      pub_date = character(),
+      url = character()
+    ))
+  }
+  
+  docs <- archive_json$response$docs
+  
+  tibble(
+    headline = docs$headline.main %||% NA_character_,
+    abstract = docs$abstract %||% NA_character_,
+    lead = docs$lead_paragraph %||% NA_character_,
+    pub_date = docs$pub_date %||% NA_character_,
+    url = docs$web_url %||% NA_character_
+  )
+}
+
+is_fl_politician <- function(headline) {
+  hl <- tolower(headline)
+  
+  name_hits <- grepl(
+    "rubio|rick scott|scott|desantis|de santis|crist|nelson|gaetz|mast|wasserman|shalala|fried|gillum|rooney|moody|bondi",
+    hl
+  )
+  
+  role_hits <- grepl(
+    "florida senator|florida governor|florida representative|florida congress|florida lawmaker|florida politician",
+    hl
+  )
+  
+  name_hits | role_hits
+}
+
+```
+
+Pull 2016
+```{r eval=FALSE, include=FALSE}
+articles_2016 <- purrr::map_df(1:12, function(m) {
+  message("2016 - Downloading month ", m)
+  
+  dat <- tryCatch(
+    get_archive_month(2016, m, nyt_key),
+    error = function(e) return(NULL)
+  )
+  
+  if (is.null(dat)) return(tibble())
+  
+  extract_articles_safe(dat) %>%
+    filter(!is.na(headline)) %>%
+    filter(is_fl_politician(headline))
+})
+
+nrow(articles_2016)
+head(articles_2016)
+
+```
+
+2020 Pull
+
+```{r eval=FALSE, include=FALSE}
+articles_2020 <- purrr::map_df(1:12, function(m) {
+  message("2020 - Downloading month ", m)
+  
+  dat <- tryCatch(
+    get_archive_month(2020, m, nyt_key),
+    error = function(e) return(NULL)
+  )
+  
+  if (is.null(dat)) return(tibble())
+  
+  extract_articles_safe(dat) %>%
+    filter(!is.na(headline)) %>%
+    filter(is_fl_politician(headline))
+})
+
+nrow(articles_2020)
+head(articles_2020)
+
+```
+
+```{r}
+saveRDS(articles_2016, "articles_2016.rds")
+saveRDS(articles_2020, "articles_2020.rds")
+```
+
+```{r}
+articles_2016 <- readRDS("/Users/zacharywinograd/R Studios Folders/SURV 727/Final Project Folder/articles_2016.rds")
+
+articles_2020 <- readRDS("/Users/zacharywinograd/R Studios Folders/SURV 727/Final Project Folder/articles_2020.rds")
+
+```
+
+Combine 
+```{r}
+library(dplyr)
+library(stringr)
+library(tidytext)
+
+# Add year column
+articles_2016 <- articles_2016 %>% mutate(year = 2016)
+articles_2020 <- articles_2020 %>% mutate(year = 2020)
+
+# Combine two years together
+both_years <- bind_rows(articles_2016, articles_2020)
+
+# Clean text
+clean_both <- both_years %>%
+  mutate(
+    text = paste(headline, abstract, lead, sep = " "),
+    text = tolower(text),
+    text = str_replace_all(text, "[^a-z\\s]", " ")
+  )
+
+```
+
+## 5.3 Freq comparision 
+```{r}
+data(stop_words)
+
+word_freq_by_year <- clean_both %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words, by = "word") %>%
+  count(year, word, sort = TRUE)
+
+word_freq_by_year %>% 
+  group_by(year) %>% 
+  slice_max(n, n = 20)
+
+```
+
+```{r}
+freq_compare <- word_freq_by_year %>%
+  tidyr::pivot_wider(
+    names_from = year,
+    values_from = n,
+    values_fill = 0
+  ) %>%
+  arrange(desc(`2020`))
+
+head(freq_compare, 30)
+
+```
+
+```{r}
+freq_compare <- freq_compare %>%
+  mutate(diff = `2020` - `2016`) %>%
+  arrange(desc(diff))
+
+head(freq_compare, 20)
+
+```
+
+```{r}
+library(ggplot2)
+
+freq_compare %>%
+  slice_max(diff, n = 20) %>%
+  ggplot(aes(x = reorder(word, diff), y = diff)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Word Frequency Increase: 2016 → 2020 (NYT Florida Politician Headlines)",
+    y = "Increase (2020 - 2016)",
+    x = "Word"
+  ) +
+  theme_minimal()
+
+```
+
+## 5.4 Senitment analysis 
+```{r}
+if(!require('reticulate')) install.packages("reticulate")
+library(reticulate)
+
+# If you never installed miniconda before:
+# install_miniconda()
+
+
+```
+
+```{r}
+if(!require('devtools')) install.packages("devtools")
+if(!require('huggingfaceR')) devtools::install_github("farach/huggingfaceR")
+
+library(huggingfaceR)
+library(tidyverse)
+
+```
+
+```{r}
+distilBERT <- hf_load_pipeline(
+  model_id = "distilbert-base-uncased-finetuned-sst-2-english",
+  task = "text-classification"
+)
+
+```
+```{r}
+articles_2016$text <- paste(
+  articles_2016$headline,
+  articles_2016$abstract,
+  articles_2016$lead
+)
+
+articles_2020$text <- paste(
+  articles_2020$headline,
+  articles_2020$abstract,
+  articles_2020$lead
+)
+
+```
+
+```{r}
+sent_2016_raw <- distilBERT(articles_2016$text)
+sent_2020_raw <- distilBERT(articles_2020$text)
+
+```
+
+```{r}
+to_score <- function(result) {
+  # If positive → +score; if negative → -score
+  if (result$label == "POSITIVE") {
+    return(result$score)
+  } else {
+    return(-result$score)
+  }
+}
+
+sent_2016 <- sapply(sent_2016_raw, to_score)
+sent_2020 <- sapply(sent_2020_raw, to_score)
+
+```
+
+```{r}
+mean_2016 <- mean(sent_2016)
+mean_2020 <- mean(sent_2020)
+
+mean_2016
+mean_2020
+
+```
+
+```{r}
+df_sent <- bind_rows(
+  tibble(year = 2016, sentiment = sent_2016),
+  tibble(year = 2020, sentiment = sent_2020)
+)
+
+df_sent
+
+```
+
+```{r}
+
+ggplot(df_sent, aes(x = sentiment, fill = factor(year))) +
+  geom_density(alpha = 0.5) +
+  theme_minimal() +
+  labs(
+    title = "Hugging Face Sentiment: NYT Florida Politicians (2016 vs 2020)",
+    x = "Sentiment Score",
+    fill = "Year"
+  )
+
+```
+
