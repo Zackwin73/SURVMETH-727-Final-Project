@@ -9,6 +9,81 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+```{r LoadPackages, include=FALSE}
+library(tidycensus)
+library(tidyverse)
+library(ggplot2)
+library(rvest)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(readr)
+library(stargazer)
+library(httr)
+library(jsonlite)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(tidytext)
+library(purrr)
+library(readr)
+```
+
+
+# Introduction
+Trust in politician has been falling on average throughout the 2000s, We have seen record low trust from the public in their polticians to have their interests in mind. With such low trust in politicians 2016,2020, and 2024 saw an increasingly high voter turnout in the State of Florida. If the aggregated trust in politicians is falling consistently why are US citizens still voting. This time frame is also improtant because of the events that are occuring because at teh time right before COVID during the pandemic and then the recover for the country one would think that voter trust in their politicians would correlates to them pulling away from relying on them during a crisis. This paper explore what could explain what motivates citizens to vote that might explain low trust still resulting in voting. 
+
+# High Poltical Distrust Yet High Vote Turnout
+
+When you turn on the TV, radio, or social media in the fall what do you expect to see. Some go on to watch return of football, some want to watch the best way to get ready for the incoming cold, or to listen to what is happening in the news. In between what you want to be watching you will see ads for an advertisement for your local politicians trying to sign their election for Congress. He or she grand stands on how they will help fight for you and your community voice in the nations capital and proclaim they will be your voice. The question that naturally can come next is that how much do people actually trust their politicians to have them in their mind when they finally do get elected. 
+
+What PEW research explored in their research on this topic of the public trust in politicians priority they found that the average trust in politicians have lowered. Specifically from 2000-2024 this study found drop from averaging 40% trust in politicians  in early 2000 then droping to around 20% average in 2010 until today. This research took different public polls who ask of public trust and aggreagtes the ratings. The graph below shows what the PEW data found 
+
+```{r include=FALSE}
+Pew_PD <- read.csv("Pew_PD.csv")
+##DATACLEANPEW##
+# 1. extract row 3 to use as column names
+new_names <- Pew_PD[3, ]
+# 2. assign these as column names
+colnames(Pew_PD) <- new_names
+# 3. delete the first 3 rows (1,2,3)
+Pew_PD <- Pew_PD[-c(1:3), ]
+# 4. clean row names
+rownames(Pew_PD) <- NULL
+```
+
+```{r include=FALSE}
+## 1. Parse the dates from m/d/yy
+Pew_PD$Date2 <- as.Date(Pew_PD$Date, format = "%m/%d/%y")
+## 2. Keep only rows between 2000 and 2024
+Pew_PD_2000 <- Pew_PD[!is.na(Pew_PD$Date2) &
+                      Pew_PD$Date2 >= as.Date("2000-01-01") &
+                      Pew_PD$Date2 <= as.Date("2024-12-31"), ]
+## 3. Make sure Individual polls is numeric
+Pew_PD_2000$Individual_polls <- as.numeric(
+  gsub("[%,]", "", Pew_PD_2000$`Individual polls`)
+)
+```
+
+```{r echo=FALSE, warning=FALSE}
+
+ ggplot(Pew_PD_2000, aes(x = Date2, y = Individual_polls)) +
+  geom_line(color = "steelblue", size = 1) +
+  geom_point(color = "steelblue", size = 2, alpha = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "darkred", size = 1) +
+  labs(
+    x = "Date",
+    y = " Percent Voter's Trust",
+    title = "Voters Trust in Politicians Polls (2000–2024)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
+
+
 
 

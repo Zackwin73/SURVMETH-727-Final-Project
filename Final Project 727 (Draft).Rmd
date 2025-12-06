@@ -142,7 +142,7 @@ t16 <- dplyr::as_tibble(t16)       # convert to tibble
 #get rid of percent marks
 t16$`%Turnout` <- as.numeric(gsub("%", "", t16$`%Turnout`))
 
-
+t16 <- t16[-68, ]
 
 ```
 
@@ -185,6 +185,7 @@ t20$`Pct_2020` <- gsub("%", "", t20$`Pct_2020`)
 
 t20$Pct_2020 <- as.numeric(t20$`Pct_2020`)
 
+t20 <- t20[-68, ]
 ```
 
 
@@ -207,6 +208,7 @@ t24 <- t24[-1, ]
 t24 <- dplyr::as_tibble(t24)
 t24$`%Turnout` <- as.numeric(gsub("%", "", t24$`%Turnout`))
 
+t24 <- t24[-68, ]
 ```
 
 
@@ -366,37 +368,6 @@ p
 ```
 
 
-```{r}
-
-graph1 <- ggplot(turnout_long, aes(
-  x = Year,
-  y = TurnoutPct,
-  color = County,
-  text = paste0(
-    "County: ", County, "<br>",
-    "Year: ", Year, "<br>",
-    "Turnout: ", TurnoutPct, "%"
-  )
-)) +
-  geom_point(
-    size = 2, 
-    alpha = 0.7,
-    position = position_jitter(width = 0, height = 1.5)  # spreads points apart
-  ) +
-  labs(
-    title = "County Turnout Across Elections (2016, 2020, 2024)",
-    x = "Election Year",
-    y = "Turnout Percentage"
-  ) +
-  theme_minimal() +
-  theme(legend.position = "none")
-
-
-graph1_interactive <- ggplotly(graph1, tooltip = "text")
-graph1_interactive
-
-
-```
 
 
 ## Exploration of Voter Trends 
