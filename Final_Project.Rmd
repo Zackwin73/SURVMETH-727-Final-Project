@@ -55,24 +55,24 @@ PEW Research explored this question in their work on voters trust in politicians
 ```{r include=FALSE}
 Pew_PD <- read.csv("Pew_PD.csv")
 ##DATACLEANPEW##
-# 1. extract row 3 to use as column names
+
 new_names <- Pew_PD[3, ]
-# 2. assign these as column names
+
 colnames(Pew_PD) <- new_names
-# 3. delete the first 3 rows (1,2,3)
+
 Pew_PD <- Pew_PD[-c(1:3), ]
-# 4. clean row names
+
 rownames(Pew_PD) <- NULL
 ```
 
 ```{r include=FALSE}
-## 1. Parse the dates from m/d/yy
+
 Pew_PD$Date2 <- as.Date(Pew_PD$Date, format = "%m/%d/%y")
-## 2. Keep only rows between 2000 and 2024
+
 Pew_PD_2000 <- Pew_PD[!is.na(Pew_PD$Date2) &
                       Pew_PD$Date2 >= as.Date("2000-01-01") &
                       Pew_PD$Date2 <= as.Date("2024-12-31"), ]
-## 3. Make sure Individual polls is numeric
+
 Pew_PD_2000$Individual_polls <- as.numeric(
   gsub("[%,]", "", Pew_PD_2000$`Individual polls`)
 )
@@ -206,7 +206,7 @@ graph1
 
 (To add context, I include an interactive plot where each point represents a county to show exactly where all 67 counties in Florida fall on the plot. You can double click a county name in the legend to isolate a single county and see the vote percentage it had in each of the three presidential general election years.)
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 df <- turnout_long
 # Base plot
 p <- plot_ly(
@@ -300,6 +300,50 @@ p <- p %>% layout(
 )
 
 p
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+df <- turnout_long
+
+# Base plot
+p <- plot_ly(
+  df,
+  x = ~Year,
+  y = ~TurnoutPct,
+  type = "scatter",
+  mode = "markers",
+  color = ~County,
+  text = ~paste(
+    "County:", County,
+    "<br>Year:", Year,
+    "<br>Turnout:", TurnoutPct
+  ),
+  hoverinfo = "text"
+)
+
+
+p <- p %>% layout(
+  title = "Interactive County Turnout",
+
+  transforms = list(
+    # YEAR filter (default shows all years)
+    list(
+      type = "filter",
+      target = ~Year,
+      operation = "=",
+      value = unique(df$Year)
+    ),
+    list(
+      type = "filter",
+      target = ~County,
+      operation = "=",
+      value = character(0)
+    )
+  )
+)
+
+p
+
 ```
  
 

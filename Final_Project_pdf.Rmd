@@ -1,5 +1,5 @@
 ---
-title: "Why Voter Turnout Increases While Trust in Politicians Diminishes: Florida Exploratory Paper (pdf version)"
+title: "Why Voter Turnout Increases While Trust in Politicians Diminishes: Florida Exploratory Paper (PDF version)"
 author: "Zachary Winograd"
 date: "2025-12-10"
 output:
@@ -52,24 +52,21 @@ PEW Research explored this question in their work on voters trust in politicians
 ```{r include=FALSE}
 Pew_PD <- read.csv("Pew_PD.csv")
 ##DATACLEANPEW##
-# 1. extract row 3 to use as column names
+
 new_names <- Pew_PD[3, ]
-# 2. assign these as column names
+
 colnames(Pew_PD) <- new_names
-# 3. delete the first 3 rows (1,2,3)
+
 Pew_PD <- Pew_PD[-c(1:3), ]
-# 4. clean row names
+
 rownames(Pew_PD) <- NULL
 ```
 
 ```{r include=FALSE}
-## 1. Parse the dates from m/d/yy
 Pew_PD$Date2 <- as.Date(Pew_PD$Date, format = "%m/%d/%y")
-## 2. Keep only rows between 2000 and 2024
 Pew_PD_2000 <- Pew_PD[!is.na(Pew_PD$Date2) &
                       Pew_PD$Date2 >= as.Date("2000-01-01") &
                       Pew_PD$Date2 <= as.Date("2024-12-31"), ]
-## 3. Make sure Individual polls is numeric
 Pew_PD_2000$Individual_polls <- as.numeric(
   gsub("[%,]", "", Pew_PD_2000$`Individual polls`)
 )
@@ -494,7 +491,7 @@ ggplot(co_change, aes(x = change_16_24, y = CasesAll, color = County)) +
 ```
 
 
-**(included static graph for show use the HTML link to see the interactive plot)** 
+**(included static graph for stand in for the interactive plot that goes here: use the HTML link in beginning of paper to see the interactive plot)** 
 
 What is found in this plot is that more counties had a positive increase in voter percent. For COVID cases, there does not appear to be a trend where larger numbers of COVID cases in a county lead to the largest percent increase in voting. The counties with the highest change in turnout were actually small counties in Florida that had fewer than three thousand COVID cases. These smaller, more rural counties could have been affected harder by COVID because of limited access to hospitals, which could explain some of the effects we see. Another thing that stands out is that Miami Dade had two hundred fifty thousand COVID cases, yet it showed no turnout change.
 
@@ -664,6 +661,7 @@ What is shown in this plot is that the highest density of articles contains word
 
 In conclusion for the New York Times data, what is shown is that what is portrayed tends to be what is popular, not necessarily balanced or two sided stories about politics. This is shown by the fact that Republicans are the only group with high word frequency in the New York Times headlines. Second, what I found is that the sentiment behind the articles is shaped by more powerful language and themes rather than mild or strictly informative headlines. This suggests that even though the New York Times is a fairly traditional and respected news source, voters are still receiving information that is emotionally loaded, with strong words and strong themes used to get them to read the articles. This suggests that trust might not be the only explanation for voting. Emotions and feelings beyond what a politician can do for someone politically, including cultural or emotional reactions, may motivate voters who feel strongly enough to act. This data does not measure direct effects, but the way the New York Times frames its headlines and chooses what to talk about can be explanatory for how people consume media. If the New York Times is portraying articles with this level of emotional weight, it is reasonable to assume that other forms of media, such as independent creators, streaming platforms like Twitch that discuss political stories, and other popular media sources today, may also play a role in riling up voters.
 
+\newpage
 
 # Conclusion
 

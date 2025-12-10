@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.10)  10 DEC 2025 15:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.10)  10 DEC 2025 16:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -563,23 +563,23 @@ Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-20-1
 <Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf, id=89, 436.63126pt x 311.1625pt>
 File: Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf Graphic file (type pdf)
 <use Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf>
-Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf  used on input line 425.
+Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf  used on input line 426.
 (pdftex.def)             Requested size: 436.63019pt x 311.16174pt.
 
-Underfull \hbox (badness 2809) in paragraph at lines 425--440
+Underfull \hbox (badness 2809) in paragraph at lines 426--441
 [][] \T1/lmr/m/n/10 What
  []
 
 <Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf, id=90, 449.68pt x 313.17pt>
 File: Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf Graphic file (type pdf)
 <use Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf>
-Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf  used on input line 450.
+Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf  used on input line 451.
 (pdftex.def)             Requested size: 449.69261pt x 313.17877pt.
 [8 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf>]
 <Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf, id=103, 453.695pt x 313.17pt>
 File: Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf Graphic file (type pdf)
 <use Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf>
-Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf  used on input line 466.
+Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf  used on input line 467.
 (pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
 [9 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf>] [10 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf>] [11] (./Final_Project_pdf.aux)
  ***********
@@ -596,7 +596,7 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  89i,11n,93p,711b,452s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on Final_Project_pdf.pdf (11 pages, 265098 bytes).
+Output written on Final_Project_pdf.pdf (11 pages, 265150 bytes).
 PDF statistics:
  208 PDF objects out of 1000 (max. 8388607)
  155 compressed objects within 2 object streams
