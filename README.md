@@ -14,7 +14,7 @@ By combining these datasets, the project evaluates whether voter engagement may 
 
 ## HTML Report (RPubs)
 View the full interactive HTML version of the project here:  
-**https://rpubs.com/yourname/yourproject**
+**file:///Users/zacharywinograd/R%20Studios%20Folders/SURVMETH-727-Final-Project/Final_Project.html**
 
 ## PDF Report
 The full PDF version is included in this repository:  
