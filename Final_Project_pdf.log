@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.10)  10 DEC 2025 11:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.10)  10 DEC 2025 14:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -432,7 +432,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO)
 \BKM@id=\count332
 ))
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 87.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 88.
 (/Users/zacharywinograd/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (/Users/zacharywinograd/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
@@ -441,24 +441,24 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 ) (./Final_Project_pdf.aux)
 \openout1 = `Final_Project_pdf.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
 (/Users/zacharywinograd/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -499,91 +499,87 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 87.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 89.
+Package hyperref Info: Link coloring OFF on input line 88.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 90.
 (/Users/zacharywinograd/Library/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 89.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 90.
 (/Users/zacharywinograd/Library/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 89.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 90.
 (/Users/zacharywinograd/Library/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 89.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 90.
 (/Users/zacharywinograd/Library/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 89.
+(Font)              <12> on input line 90.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 89.
+(Font)              <8> on input line 90.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 89.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 89.
+(Font)              <6> on input line 90.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 90.
 (/Users/zacharywinograd/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 89.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 90.
 (/Users/zacharywinograd/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 134.
-(/Users/zacharywinograd/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-<Final_Project_pdf_files/figure-latex/unnamed-chunk-3-1.pdf, id=4, 457.71pt x 310.15875pt>
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 92.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 92.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 92.
+<Final_Project_pdf_files/figure-latex/unnamed-chunk-3-1.pdf, id=5, 457.71pt x 310.15875pt>
 File: Final_Project_pdf_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (type pdf)
 <use Final_Project_pdf_files/figure-latex/unnamed-chunk-3-1.pdf>
-Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-3-1.pdf  used on input line 138.
+Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-3-1.pdf  used on input line 141.
 (pdftex.def)             Requested size: 457.7089pt x 310.15799pt.
 [1
 
 {/Users/zacharywinograd/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}]
-<Final_Project_pdf_files/figure-latex/unnamed-chunk-7-1.pdf, id=17, 459.7175pt x 313.17pt>
+<Final_Project_pdf_files/figure-latex/unnamed-chunk-7-1.pdf, id=18, 459.7175pt x 313.17pt>
 File: Final_Project_pdf_files/figure-latex/unnamed-chunk-7-1.pdf Graphic file (type pdf)
 <use Final_Project_pdf_files/figure-latex/unnamed-chunk-7-1.pdf>
-Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-7-1.pdf  used on input line 165.
+Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-7-1.pdf  used on input line 167.
 (pdftex.def)             Requested size: 459.7304pt x 313.17877pt.
 [2 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-3-1.pdf>] [3 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-7-1.pdf>]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 236.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 236.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 236.
 
-LaTeX Warning: Float too large for page by 17.55388pt on input line 297.
+LaTeX Warning: Float too large for page by 17.55388pt on input line 307.
 
-<Final_Project_pdf_files/figure-latex/unnamed-chunk-20-1.pdf, id=51, 463.7325pt x 313.17pt>
+[4] [5{/Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
+<Final_Project_pdf_files/figure-latex/unnamed-chunk-20-1.pdf, id=66, 463.7325pt x 313.17pt>
 File: Final_Project_pdf_files/figure-latex/unnamed-chunk-20-1.pdf Graphic file (type pdf)
 <use Final_Project_pdf_files/figure-latex/unnamed-chunk-20-1.pdf>
-Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-20-1.pdf  used on input line 318.
+Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-20-1.pdf  used on input line 367.
 (pdftex.def)             Requested size: 463.73842pt x 313.174pt.
-[4] [5{/Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
-<Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf, id=67, 436.63126pt x 311.1625pt>
+[6 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-20-1.pdf>]
+<Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf, id=82, 436.63126pt x 311.1625pt>
 File: Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf Graphic file (type pdf)
 <use Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf>
-Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf  used on input line 342.
+Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf  used on input line 422.
 (pdftex.def)             Requested size: 436.63019pt x 311.16174pt.
 
-Underfull \hbox (badness 2809) in paragraph at lines 342--355
+Underfull \hbox (badness 2809) in paragraph at lines 422--437
 [][] \T1/lmr/m/n/10 What
  []
 
-[6 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-20-1.pdf>]
-<Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf, id=84, 449.68pt x 313.17pt>
+[7 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf>]
+<Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf, id=97, 449.68pt x 313.17pt>
 File: Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf Graphic file (type pdf)
 <use Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf>
-Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf  used on input line 365.
+Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf  used on input line 447.
 (pdftex.def)             Requested size: 449.69261pt x 313.17877pt.
-[7 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-24-1.pdf>]
 <Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf, id=98, 453.695pt x 313.17pt>
 File: Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf Graphic file (type pdf)
 <use Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf>
-Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf  used on input line 381.
+Package pdftex.def Info: Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf  used on input line 463.
 (pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
 [8 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-27-1.pdf>] [9 <./Final_Project_pdf_files/figure-latex/unnamed-chunk-31-1.pdf>] (./Final_Project_pdf.aux)
  ***********
@@ -592,18 +588,18 @@ L3 programming layer <2025-11-14>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 12809 strings out of 469519
- 200971 string characters out of 5468250
- 625564 words of memory out of 5000000
- 41213 multiletter control sequences out of 15000+600000
- 675459 words of font info for 81 fonts, out of 8000000 for 9000
+ 12762 strings out of 469519
+ 200160 string characters out of 5468250
+ 629167 words of memory out of 5000000
+ 41170 multiletter control sequences out of 15000+600000
+ 675140 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 89i,11n,93p,711b,452s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Final_Project_pdf.pdf (9 pages, 275515 bytes).
+ 89i,11n,93p,711b,454s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/zacharywinograd/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
+Output written on Final_Project_pdf.pdf (9 pages, 262416 bytes).
 PDF statistics:
- 202 PDF objects out of 1000 (max. 8388607)
- 149 compressed objects within 2 object streams
+ 198 PDF objects out of 1000 (max. 8388607)
+ 147 compressed objects within 2 object streams
  17 named destinations out of 1000 (max. 500000)
  79 words of extra memory for PDF output out of 10000 (max. 10000000)
 
