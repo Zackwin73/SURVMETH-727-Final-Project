@@ -880,8 +880,6 @@ ggplot(combined_top, aes(x = total_n, y = word)) +
 
 ```
 
-
-
 What these frequencies show is that in three hundred plus articles names like Marco Rubio, who was a senator from Florida at the time, Donald Trump, who was the president in 2016 and the Republican candidate in 2020, and Rick Scott all appear hundreds of times in the titles and descriptions of the New York Times articles. Other key words that show up hundreds of times are words like campaign, republican, and senator. What this tells us is that news coverage that talks about Florida politicians is focused mostly on prominent figures such as senators or the presidential candidate who lives in the state. Another point is that because Republicans controlled many of the major political positions in the state during these years, much of the information in a national newspaper puts Republicans at the center of the coverage. This can also be explained by the fact that the best known Florida politicians during this period were from that party.
 
 Next, I look at the change in words from 2016 to 2020 to see what is shifting in the information being portrayed. What is seen is that news related to the pandemic, such as death and dies, saw an increase in articles about politicians, while the focus on politicians who were not in the election cycle, like Marco Rubio, Rick Scott, or Ted Cruz, decreased. What this shows is that news media changes heavily from year to year, and the stories are dependent on what people are most interested in at that time.
