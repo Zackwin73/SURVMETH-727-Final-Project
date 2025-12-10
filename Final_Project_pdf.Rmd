@@ -35,7 +35,7 @@ library(censusapi)
 
 Github link: https://github.com/Zackwin73/SURVMETH-727-Final-Project
 
-Html Link **(HTML format is how the paper was writtern and includes the interactive plots)**: https://rpubs.com/ZWin1234/1379033
+HTML link **(HTML format is how original paper was formatted and includes the interactive plots.)** :https://rpubs.com/ZWin1234/1379033
 
 # Introduction
 Trust in politicians has been declining steadily throughout the 2000s, with the United States experiencing record-low levels of public confidence in elected officials to act in citizens’ best interest. Despite this decline, the 2016, 2020, and 2024 general elections saw unusually high voter turnout in the state of Florida. This raises a central question: if overall trust in politicians is consistently falling, why are citizens still turning out to vote at high rates?
@@ -175,7 +175,7 @@ graph1
 ```
 
 
-(To add context, I include an interactive plot where each point represents a county to show exactly where all 67 counties in Florida fall on the plot. You can double click a county name in the legend to isolate a single county and see the vote percentage it had in each of the three presidential general election years.) (**See HTML version to see interactive plot**)
+(To add context, I include an interactive plot where each point represents a county to show exactly where all 67 counties in Florida fall on the plot. You can double click a county name in the legend to isolate a single county and see the vote percentage it had in each of the three presidential general election years.) (**See HTML version to see interactive plot called "Interactive County Turnout"**)
 
 ```{r include=FALSE}
 #  Compute change from 2016 to 2024
@@ -491,7 +491,7 @@ ggplot(co_change, aes(x = change_16_24, y = CasesAll, color = County)) +
 ```
 
 
-**(included static graph for stand in for the interactive plot that goes here: use the HTML link in beginning of paper to see the interactive plot)** 
+**(included static graph for stand in for the interactive plot that goes here: use the HTML link in beginning of paper to see the interactive plot. Plot titled "COVID Cases vs Voter Turnout Change")** 
 
 What is found in this plot is that more counties had a positive increase in voter percent. For COVID cases, there does not appear to be a trend where larger numbers of COVID cases in a county lead to the largest percent increase in voting. The counties with the highest change in turnout were actually small counties in Florida that had fewer than three thousand COVID cases. These smaller, more rural counties could have been affected harder by COVID because of limited access to hospitals, which could explain some of the effects we see. Another thing that stands out is that Miami Dade had two hundred fifty thousand COVID cases, yet it showed no turnout change.
 
