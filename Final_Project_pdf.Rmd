@@ -35,7 +35,7 @@ library(censusapi)
 
 Github link: https://github.com/Zackwin73/SURVMETH-727-Final-Project
 
-HTML link **(HTML format is how original paper was formatted and includes the interactive plots.)** :https://rpubs.com/ZWin1234/1379033
+HTML link **(HTML format is how original paper was formatted and includes the interactive plots.)** :https://rpubs.com/ZWin1234/1379120
 
 # Introduction
 Trust in politicians has been declining steadily throughout the 2000s, with the United States experiencing record-low levels of public confidence in elected officials to act in citizens’ best interest. Despite this decline, the 2016, 2020, and 2024 general elections saw unusually high voter turnout in the state of Florida. This raises a central question: if overall trust in politicians is consistently falling, why are citizens still turning out to vote at high rates?
