@@ -45,6 +45,5 @@ This project analyzes county-level voter turnout across Florida using data from:
 
 The HTML version includes:
 - Interactive plots (Plotly)
-- Maps
 - Tables and summaries
 
