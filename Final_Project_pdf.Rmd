@@ -1,0 +1,647 @@
+---
+title: "Final_Project_pdf_version"
+author: "Zachary Winograd"
+date: "2025-12-10"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r LoadPackages, include=FALSE}
+library(tidycensus)
+library(tidyverse)
+library(ggplot2)
+library(rvest)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(readr)
+library(stargazer)
+library(httr)
+library(jsonlite)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(tidytext)
+library(purrr)
+library(readr)
+library(censusapi)
+
+```
+
+# Introduction
+Trust in politicians has been declining steadily throughout the 2000s, with the United States experiencing record-low levels of public confidence in elected officials to act in citizens’ best interests. Despite this decline, the 2016, 2020, and 2024 general elections saw unusually high voter turnout in the state of Florida. This raises a central question: if aggregated trust in politicians is consistently falling, why are citizens still turning out to vote at high rates?
+
+This period is especially important to examine because it spans several major national events things includes the years immediately before the COVID-19 pandemic, the pandemic itself, and the subsequent recovery. One might expect that declining trust during such crises would lead individuals to disengage from politics rather than participate. Yet turnout increased. This paper investigates what factors may motivate citizens to vote even when trust in political leaders is low and explores what might explain the persistence of electoral participation in the face of widespread distrust.
+
+
+# High Poltical Distrust Yet High Vote Turnout
+
+When you turn on the TV, radio, or social media in the fall, what do you expect to see. Some people watch the return of football, some want to see the best ways to prepare for the incoming cold, and others listen to what is happening in the news. In between what you want to be watching, you will see advertisements for your local politicians trying to sign their election for Congress. He or she grandstands about how they will fight for you and your community’s voice in the nation’s capital and proclaim that they will be your voice. The question that naturally comes next is how much people actually trust their politicians to have them in mind when they finally do get elected. 
+
+What PEW Research explored in their work on public trust in politicians was the decline in how much confidence the public has in their elected officials. They found that the average level of trust in politicians has lowered over time. Specifically, from 2000 to 2024, their study shows a drop from an average of about 40 percent trust in the early 2000s to around 20 percent on average from 2010 to today. This research combines results from different public polls that ask about trust in politicians and aggregates the ratings. The graph below shows what the PEW data found.
+
+```{r include=FALSE}
+Pew_PD <- read.csv("Pew_PD.csv")
+##DATACLEANPEW##
+# 1. extract row 3 to use as column names
+new_names <- Pew_PD[3, ]
+# 2. assign these as column names
+colnames(Pew_PD) <- new_names
+# 3. delete the first 3 rows (1,2,3)
+Pew_PD <- Pew_PD[-c(1:3), ]
+# 4. clean row names
+rownames(Pew_PD) <- NULL
+```
+
+```{r include=FALSE}
+## 1. Parse the dates from m/d/yy
+Pew_PD$Date2 <- as.Date(Pew_PD$Date, format = "%m/%d/%y")
+## 2. Keep only rows between 2000 and 2024
+Pew_PD_2000 <- Pew_PD[!is.na(Pew_PD$Date2) &
+                      Pew_PD$Date2 >= as.Date("2000-01-01") &
+                      Pew_PD$Date2 <= as.Date("2024-12-31"), ]
+## 3. Make sure Individual polls is numeric
+Pew_PD_2000$Individual_polls <- as.numeric(
+  gsub("[%,]", "", Pew_PD_2000$`Individual polls`)
+)
+```
+
+```{r echo=FALSE, warning=FALSE}
+
+ ggplot(Pew_PD_2000, aes(x = Date2, y = Individual_polls)) +
+  geom_line(color = "steelblue", size = 1) +
+  geom_point(color = "steelblue", size = 2, alpha = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "darkred", size = 1) +
+  labs(
+    x = "Date",
+    y = " Percent Voter's Trust",
+    title = "Voters Trust in Politicians Polls (2000–2024)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
+This research would suggest that the average voter has little trust in a politician to have their self-interest in mind. The act of voting has been described in research by political scientists such as V. O. Key as a cost–benefit analysis, requiring people to weigh their reasons for voting against the small gain they receive from actually doing it. There is a process to registering, obtaining an absentee ballot, voting early, or making time on Election Day to vote, especially when there are no universal laws guaranteeing those access points or paid time off to vote. With that reasoning, it would be reasonable to assume that voting would likely decrease if voters have no trust and the cost of voting is high enough that they would need a strong reason to go out of their way to cast a ballot.
+
+This is not the case in Florida. When visiting the Florida Board of Elections website, what is shown is that the total vote percentage in Florida has increased in each presidential general election. Voter turnout went from 74.5 to 77.2 to 78.9 percent. I then went further and examined whether these high vote percentages were stable across all counties or if they were concentrated in certain areas. After scraping the Florida Board of Elections website to gather the percent of votes cast in each county, I used that county-level data to examine how this movement was distributed. What is shown below is how that scraped county-level data portrays this change. What this graph shows is that… 
+
+```{r flcodeclean, include=FALSE}
+
+#2016
+turnout_2016<-read.csv("turnout_2016.csv")
+t16 <- turnout_2016[-1, ]
+colnames(t16) <- t16[1, ] 
+t16 <- t16[-1, ] 
+t16 <- dplyr::as_tibble(t16)
+t16$`%Turnout` <- as.numeric(gsub("%", "", t16$`%Turnout`))
+t16 <- t16[-68, ]
+
+#2020
+turnout_2020 <- read.csv("turnout_2020.csv", stringsAsFactors = FALSE)
+t20 <- turnout_2020[-1, ]
+colnames(t20) <- t20[1, ]
+t20 <- t20[-1, ]
+t20 <- dplyr::as_tibble(t20)
+t20 <- t20 %>%
+  rename(
+    VoterReg_2020 = `Voter Reg`,
+    Turnout_2020  = Turnout,
+    Pct_2020      = `%Turnout`
+  )
+t20$`Pct_2020` <- gsub("%", "", t20$`Pct_2020`)
+t20$Pct_2020 <- as.numeric(t20$`Pct_2020`)
+t20 <- t20[-68, ]
+
+#2024
+turnout_2024<-read.csv("turnout_2024.csv")
+t24 <- turnout_2024[-1, ]
+colnames(t24) <- t24[1, ]
+t24 <- t24[-1, ]
+t24 <- dplyr::as_tibble(t24)
+t24$`%Turnout` <- as.numeric(gsub("%", "", t24$`%Turnout`))
+t24 <- t24[-68, ]
+```
+
+```{r include=FALSE}
+names(t16) <- c("County", "VoterReg_2016", "Turnout_2016", "Pct_2016")
+names(t20) <- c("County", "VoterReg_2020", "Turnout_2020", "Pct_2020")
+names(t24) <- c("County", "VoterReg_2024", "Turnout_2024", "Pct_2024")
+
+merged_turnout_1 <- t16 %>%
+  left_join(t20, by = "County") %>%
+  left_join(t24, by = "County")
+```
+
+```{r include=FALSE}
+turnout_long <- merged_turnout_1 %>%
+  pivot_longer(
+    cols = starts_with("Pct_"),
+    names_to = "Year",
+    values_to = "TurnoutPct"
+  ) %>%
+  mutate(
+    Year = factor(
+      Year,
+      levels = c("Pct_2016", "Pct_2020", "Pct_2024"),
+      labels = c("2016", "2020", "2024")
+    )
+  )
+
+```
+
+```{r include=FALSE}
+ graph1<- ggplot(turnout_long, aes(x = Year, y = TurnoutPct, group = County)) +
+  geom_line(alpha = 0.4) +
+  geom_point(size = 2, alpha = 0.7) +
+  labs(
+    title = "County Turnout Progression (2016 → 2020 → 2024)",
+    x = "Election Year",
+    y = "Turnout Percentage"
+  ) +
+  theme_minimal()
+```
+
+```{r echo=FALSE, warning=FALSE}
+graph1
+```
+
+
+(To add context, I include an interactive plot where each point represents a county to show exactly where all 67 counties in Florida fall on the plot. You can double click a county name in the legend to isolate a single county and see the vote percentage it had in each of the three presidential general election years.**See HTML version to see interactive plot**)
+
+```{r include=FALSE}
+#  Compute change from 2016 to 2024
+merged_turnout <- merged_turnout_1 %>%
+  mutate(
+    change_16_24 = Pct_2024 - Pct_2016,
+    direction_16_24 = case_when(
+      change_16_24 > 0 ~ "Up",
+      change_16_24 < 0 ~ "Down",
+      TRUE ~ "No Change"
+    )
+  )
+```
+
+```{r include=FALSE}
+all_counties_change <- merged_turnout %>%
+  mutate(
+    change_16_24 = Pct_2024 - Pct_2016,
+    direction_16_24 = case_when(
+      change_16_24 > 0 ~ "Up",
+      change_16_24 < 0 ~ "Down",
+      TRUE ~ "No Change"
+    )
+  ) %>%
+  select(County, Pct_2016, Pct_2024, change_16_24, direction_16_24)
+
+all_counties_change
+```
+
+When isolating the movement of each county’s vote percentage, what is found is that 59 counties saw a consistent increase from 2016 to 2024, while 7 counties showed a decrease and 2 remained the same. This suggests that the overall increase in the total number of registered voters casting a vote has pushed statewide turnout into the high seventies over these general elections. This then brings up the question that if voters have low trust in politicians to legislate on their behalf, what is motivating them to go out and vote.
+
+This paper seeks to explore some of the reasons why a voter will go out of their way to cast a vote. I address this by examining three different data sets. First, I explore census data. At the county level, I examine which aspects, such as population size, household income, or other demographic measures, can help explain voting. Second, I look at the number of COVID cases to see whether the largest public health and financial turmoil in recent history had any effect on the rate of change in voting within each county. Finally, I explore media coverage, specifically the type of news the New York Times released about Florida politicians. This data examines how the sentiment behind headlines and descriptions of the news could reflect the kind of information voters were consuming.
+
+# Census Exploration 
+First, when examining what could be explanatory of voting, it is important to look at county-level demographics and statistics that could help explain voting patterns. To accomplish this, I used data from the Census to gather county-level information in Florida. Using the Census API, I collected the 5-year ACS data to compare demographic measures and merge them with the data I scraped from the Florida election website. The reason for choosing the 5-year ACS data is that the 2020 and 2024 1-year ACS datasets are not suitable for representative county-level analysis. The 2024 1-year ACS is not accessible, and the 2020 1-year ACS is considered an experimental survey that is not comparable to other 1-year estimates. To address this, I relied on the 5-year ACS and averaged the vote percentages from the Florida election data. This allows me to examine which demographic factors could influence the increasing vote percentages across counties. This dataset focuses on what might motivate a person to vote even when the public, on average, shows low trust in politicians, helping explain why distrust does not necessarily prevent individuals from voting.
+
+To examine what census-level demographic information might help explain the vote percentage, I ran two multiple regression models to look at what observational effects these demographics can have on voting levels for each county. The reason for running two regression models is to examine two different levels of voting. First, I look at an individual level to examine why an individual with certain demographics in a county would go and vote. Next, I look at what would change the overall vote percentage. This examines what factors would increase the share of registered voters in a county who actually turn out to vote. These two regressions are used to examine what explains voting at the individual level and then what explains changes in the percent of registered voters, looking more at the county as a whole.
+
+```{r include=FALSE}
+key <- readLines("census-key.txt")
+Sys.setenv(CENSUS_KEY = key)
+
+vars <- c(
+  "NAME",
+
+  # Population + Age
+  "B01001_001E",
+  "B01001_002E",
+  "B01001_026E",
+  "B01002_001E",
+
+  # Race
+  "B02001_002E",
+  "B02001_003E",
+  "B02001_005E",
+
+  # Hispanic
+  "B03003_003E",
+
+  # Income
+  "B19013_001E",
+  "B19301_001E",
+
+  # Poverty
+  "B17001_001E",
+  "B17001_002E",
+
+  # Housing
+  "B25001_001E",
+  "B25077_001E",
+  "B25064_001E",
+
+  # Education (real ACS variables)
+  "B15003_001E",  # total 25+
+  "B15003_014E",  # BA
+  "B15003_015E",  # MA
+  "B15003_016E",  # professional
+  "B15003_017E"   # doctorate
+)
+
+acs_2020_5yr <- getCensus(
+  name    = "acs/acs5",
+  vintage = 2020,
+  vars    = vars,
+  region  = "county:*",
+  regionin = "state:12"
+) %>%
+  rename(
+    pop               = B01001_001E,
+    male              = B01001_002E,
+    female            = B01001_026E,
+    median_age        = B01002_001E,
+    white             = B02001_002E,
+    black             = B02001_003E,
+    asian             = B02001_005E,
+    hispanic          = B03003_003E,
+    hh_income         = B19013_001E,
+    income_pc         = B19301_001E,
+    poverty_base      = B17001_001E,
+    poverty_count     = B17001_002E,
+    housing_units     = B25001_001E,
+    median_home_value = B25077_001E,
+    median_rent       = B25064_001E,
+
+    edu_total_25plus  = B15003_001E,
+    edu_ba            = B15003_014E,
+    edu_ma            = B15003_015E,
+    edu_prof          = B15003_016E,
+    edu_phd           = B15003_017E
+  ) %>%
+  mutate(
+    county = sub(", Florida", "", sub(" County", "", NAME)),
+    year = 2020,
+
+    # NEW EDUCATION VARIABLE
+    edu = (edu_ba + edu_ma + edu_prof + edu_phd) / edu_total_25plus * 100
+  ) %>%
+  relocate(county, .after = NAME)
+
+head(acs_2020_5yr)
+
+```
+
+```{r include=FALSE}
+names(t16)
+names(t20)
+
+combined_vt_16_20 <- t16 %>%
+  select(County, Pct_2016) %>%
+  left_join(
+    t20 %>% select(County, Pct_2020),
+    by = "County"
+  ) %>%
+  mutate(
+    average_vote_percent = (Pct_2016 + Pct_2020) / 2
+  )
+
+combined_vt_16_20 <- combined_vt_16_20 %>%
+  rename(county = County)
+
+```
+
+```{r include=FALSE}
+t16 <- t16 %>%
+  mutate(Turnout_2016 = as.numeric(gsub("%|,", "", Turnout_2016)))
+
+t20 <- t20 %>%
+  mutate(Turnout_2020 = as.numeric(gsub("%|,", "", Turnout_2020)))
+
+
+combined_turnout_16_20 <- t16 %>%
+  select(County, Turnout_2016) %>%
+  left_join(
+    t20 %>% select(County, Turnout_2020),
+    by = "County"
+  ) %>%
+  mutate(
+    average_turnout = (Turnout_2016 + Turnout_2020) / 2
+  ) %>%
+  rename(county = County)
+
+```
+
+
+```{r include=FALSE}
+final_census_merged_1 <- acs_2020_5yr %>%
+  left_join(combined_vt_16_20, by = "county")
+```
+
+```{r include=FALSE}
+final_census_merged_1$average_vote_percent <-
+  as.numeric(final_census_merged_1$average_vote_percent)
+```
+
+```{r include=FALSE}
+final_census_merged_2 <- acs_2020_5yr %>%
+  left_join(combined_turnout_16_20, by = "county")
+```
+
+
+```{r include=FALSE}
+model_avg_turnout <- lm(
+  average_turnout ~ 
+    pop +
+    male +
+    median_age +
+    white +
+    black +
+    asian +
+    hispanic +
+    hh_income +
+    income_pc +
+    poverty_count +
+    housing_units +
+    median_home_value +
+    median_rent+
+    edu,
+  data = final_census_merged_2
+)
+
+```
+
+```{r include=FALSE}
+model_avg_pct <- lm(
+  average_vote_percent ~ 
+    pop +
+    male +
+    median_age +
+    white +
+    black +
+    asian +
+    hispanic +
+    hh_income +
+    income_pc +
+    poverty_count +
+    housing_units +
+    median_home_value +
+    median_rent+
+    edu,
+  data = final_census_merged_1
+)
+
+```
+
+```{r echo=FALSE, results='asis'}
+library(stargazer)
+
+stargazer(
+  model_avg_turnout,
+  model_avg_pct,
+  type = "latex",   # for PDF output
+  title = "Regression Models: Turnout vs Vote Percent",
+  column.labels = c("Avg Turnout", "Avg Vote Percent"),
+  dep.var.labels.include = TRUE,
+  single.row = FALSE,
+  digits = 4,
+  omit.stat = c("f", "ser", "adj.rsq"),   # adjust as needed
+  star.cutoffs = c(0.05, 0.01, 0.001),
+  covariate.labels = c(
+    "Population",
+    "Male",
+    "Median Age",
+    "White",
+    "Black",
+    "Asian",
+    "Hispanic",
+    "Household Income",
+    "Income per Capita",
+    "Poverty Count",
+    "Housing Units",
+    "Median Home Value",
+    "Median Rent",
+    "Education (%)"
+  )
+)
+
+```
+
+
+# 2020 COVID Cases Affect on County Vote Percent Change
+
+Next, what I take a look at is how COVID affected the amount of voters between 2016, 2020, and 2024 for the presidential general elections. The reason to explore this is connected to the central ideas of public service. COVID was one of the largest and most devastating public health crises in recent history. It is important to examine how the percent of voting changed across these three elections. 
+
+I examine this by using the COVID case data available from the University of South Florida website and merging it with the voter turnout data. Specifically, I created the percent change that occurs over the three elections in question. To properly examine this change, I include an interactive plot that shows the total COVID cases a county had in 2020 and the change in its voter turnout percent across those years. In this interactive plot, you can single out a county by using the legend and double clicking the county you want to explore.
+
+```{r include=FALSE}
+
+Florida_COVID_Cases_0<-read_csv("/Users/zacharywinograd/R Studios Folders/SURV 727/Final Project Folder/Florida_COVID_Cases_0.csv")
+
+fl_co<-Florida_COVID_Cases_0
+
+fl_co <- fl_co[-68, ]
+
+fl_co$County[fl_co$County == "Dade"] <- "Miami-Dade"
+
+co_change <- fl_co %>%
+  left_join(all_counties_change, by = "County")
+
+co_change$CasesAll <- as.numeric(gsub(",", "", co_change$CasesAll))
+
+co_change$CasesAll <- as.numeric(as.character(co_change$CasesAll))
+
+str(co_change$CasesAll)
+
+co_change <- co_change[-68, ]
+```
+
+```{r echo=FALSE, warning=FALSE}
+
+ggplot(co_change, aes(x = change_16_24, y = CasesAll, color = County)) +
+  geom_point(size = 3, alpha = 0.8) +
+  labs(
+    title = "COVID Cases vs Voter Turnout Change (2016 → 2024)",
+    x = "Voter Turnout Change (2016 → 2024)",
+    y = "COVID Cases (Total CasesAll)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 18),
+    legend.position = "none"  # hides the 67-county legend which would clutter the plot
+  )
+```
+
+# Medias Portrayal of Politicians
+
+
+```{r include=FALSE}
+articles_2016 <- readRDS("/Users/zacharywinograd/R Studios Folders/SURV 727/Final Project Folder/articles_2016.rds")
+
+articles_2020 <- readRDS("/Users/zacharywinograd/R Studios Folders/SURV 727/Final Project Folder/articles_2020.rds")
+
+```
+
+
+Next, what I look into is how the media may affect voters. There is not a direct way to examine how this media might influence their likelihood to vote, but what can be examined is how the framing of news from a large news company may shape the information that voters consume. To explore this, I used the New York Times API to examine news articles that included a Florida politician in the title. To do this, I included all well known Florida politicians from the 2016 and 2020 cycles in those election years. These election years were chosen because the study of voter motivation is most meaningful when the focus is on the period leading into an election. Voters tend to pay attention to what is right in front of them, so to measure that short lead up into an election cycle, I examined the year of news beginning in January and continuing through the end of the year when the elections are held. 2016 and 2020 were the only years aviable because of the 2024 cycle in the NYT has not been posted to hte API. 
+
+First I examine what words show up the most in the articles. This is shown in the graph below
+
+```{r include=FALSE}
+# Add year column
+articles_2016 <- articles_2016 %>% mutate(year = 2016)
+articles_2020 <- articles_2020 %>% mutate(year = 2020)
+
+# Combine two years together
+both_years <- bind_rows(articles_2016, articles_2020)
+
+# Clean text
+clean_both <- both_years %>%
+  mutate(
+    text = paste(headline, abstract, lead, sep = " "),
+    text = tolower(text),
+    text = str_replace_all(text, "[^a-z\\s]", " ")
+  )
+```
+
+```{r include=FALSE}
+data(stop_words)
+
+word_freq_by_year <- clean_both %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words, by = "word") %>%
+  count(year, word, sort = TRUE)
+
+word_freq_by_year %>% 
+  group_by(year) %>% 
+  slice_max(n, n = 20)
+
+# Sum counts across years to get total frequency
+combined_top <- word_freq_by_year %>%
+  group_by(word) %>%
+  summarise(total_n = sum(n)) %>%
+  arrange(desc(total_n)) %>%
+  slice_max(total_n, n = 20) %>%   # choose top 20 combined
+  mutate(word = fct_reorder(word, total_n))
+```
+
+```{r echo=FALSE}
+ggplot(combined_top, aes(x = total_n, y = word)) +
+  geom_col(fill = "gray30") +
+  labs(
+    title = "Top 20 Words Used Across Both Years",
+    x = "Total Frequency Across 2016 + 2020",
+    y = NULL
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    plot.title = element_text(size = 20, face = "bold"),
+    axis.text.y = element_text(size = 12),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+```
+What is shown is that in these 300 plus articles is that names like Marco Rubio the sentaor from Florida at the time, Donald Trump (the president in 2016 and Republican candidate in 2020), and Rick Scott all show up hundreds of times in the titles and descriptions of these NYT articles. Other key words brought up hundreds of time is words like. campaign, republican, and senator. What this tells us is news that is talking about Florida politcians is focused more on prominent figures like senatora or the presdiental candiadte that lives in the state. Another is that because of Republican contorl of the state in thse positions that alot of the information in a natinoal news paper has republicans more of the focus. This can also be because of the main politicans being of that party. 
+
+
+Next i look at the changing of words form 2016 to 2020 and see what is changing in the information that is being portrayed. What is seen is that news on the pandemic like death and dies saw an increase in articles about politicians where the focus in 2020 saw poltivcians that werent in the cycle like Marco Rubio, Rick Scott, or Ted Cruz saw politician news were dimisnihed. What this shows is that news media changes heavily through each year where the stories are depedent are what people would be most interested in seeing. 
+
+
+```{r include=FALSE}
+freq_compare <- word_freq_by_year %>%
+  tidyr::pivot_wider(
+    names_from = year,
+    values_from = n,
+    values_fill = 0
+  ) %>%
+  arrange(desc(`2020`))
+
+head(freq_compare, 30)
+
+```
+
+```{r include=FALSE}
+freq_compare <- freq_compare %>%
+  mutate(diff = `2020` - `2016`) %>%
+  arrange(desc(diff))
+
+
+```
+
+```{r echo=FALSE}
+plot_data <- freq_compare %>%
+  slice_max(`2020`, n = 30) %>%
+  pivot_longer(cols = c(`2016`, `2020`),
+               names_to = "Year",
+               values_to = "Frequency")
+
+ggplot(plot_data, aes(x = Frequency, y = reorder(word, Frequency))) +
+  geom_line(aes(group = word), color = "gray60", size = 1) +
+  geom_point(aes(color = Year), size = 3) +
+  labs(
+    title = "Top 30 Words: Change from 2016 to 2020",
+    x = "Frequency",
+    y = "Word"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(size = 18, face = "bold")
+  )
+
+```
+
+
+What I examine next is what each headline and introductory statement sentmient tells us. What is examined is exactly how powerful all these articles are. After exmaining the frquenecy of the words we see that there is a focus on rpeulibcan polticians and on the pandemic and what is occuring. What I exmiane next is taking the headlines words and finding the meaning behind the words. What is measured is the setniment measuring from -1 to 1 how strong the words being used are. This analysis is used to see hwo strong the langauge for these headlines are. This is to see one thing that is the informaiton being presetned something that tries to get people to stop and look at the news. This coudl have an affect in riling voters up and providing strongly emotinaotl or snetiametal informaiton that could charge them if that level of snetiment is felt in artilces. 
+
+```{r include=FALSE}
+sent_2016 <- readRDS("sent_2016_scores.rds")
+sent_2020 <- readRDS("sent_2020_scores.rds")
+
+```
+
+
+```{r include=FALSE}
+mean_2016 <- mean(sent_2016)
+mean_2020 <- mean(sent_2020)
+
+mean_2016
+mean_2020
+
+```
+
+```{r include=FALSE}
+df_sent <- bind_rows(
+  tibble(year = 2016, sentiment = sent_2016),
+  tibble(year = 2020, sentiment = sent_2020)
+)
+
+df_sent
+
+```
+
+```{r echo=FALSE}
+
+ggplot(df_sent, aes(x = sentiment, fill = factor(year))) +
+  geom_density(alpha = 0.5) +
+  theme_minimal() +
+  labs(
+    title = "Hugging Face Sentiment: NYT Florida Politicians (2016 vs 2020)",
+    x = "Sentiment Score",
+    fill = "Year"
+  )
+
+```
+
+What is shown in this plot is that the highest denisty of articles have words that score at the strongest ends of the snetiment analysis scores. There is very little articles have strong sentiment scores. Another thing that sticks out is the peaks for both 2020 and 2016 are at both ends of the scale. This suggests that highest denisty of articles have strong langauge used as their headlines.
+
+In conclusion for the NYT data what is shown is that what is portrayed will be things that are poplar not that things will show to sided stories for politcis. This is shown by republicans being the only one to have frequnecy in the NYT headlines. Second what I found is that the sentiment behind the articles are made with more powerful lanaguge and themes rather than more informative or mild headlines and themes to the paper. This can suggests beyond the New York Times are fairly journlistic and not just tabloid headlines that voters will get infromation that is loaded and have strong words and themes used to get them to read the articles. This can suggests that trust might not have to be explanotry if emotions and feeling sbeyond what a politician can do for you potlically but culture or emotinoally a voter might be so riled up that it motivate them. This data does not get to look at the direct affects but the way the NYT portray these headlines and what they talk about can be explontory on how people consume media. If the NYT is portraying articles this stronger it is assumed that other forms of media that of indepdent creators, those are streaming platoforms like twitch that do poltical stores, and other forms of pooular media today may be explanotry by what can rile up voters. 
+
+
+# Conclusion
