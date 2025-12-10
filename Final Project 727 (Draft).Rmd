@@ -665,8 +665,6 @@ nyt_key <- readLines("nyt-key.txt")
 url <- "https://api.nytimes.com/svc/search/v2/articlesearch.json"
 ```
 
-
-
 ```{r eval=FALSE, include=FALSE}
 nyt_data <- get_nyt_page(0, nyt_key)
 
