@@ -1,9 +1,8 @@
 ---
-title: "Final_Project"
+title: "Why Voter Turnout Increases While Trust in Politicians Diminishes: Florida Exploratory Study"
 author: "Zachary Winograd"
 date: "2025-12-06"
 output:
-  pdf_document: default
   html_document: default
 ---
 
@@ -37,18 +36,21 @@ library(plotly)
 library(htmlwidgets)
 ```
 
+Github link: https://github.com/Zackwin73/SURVMETH-727-Final-Project
+
+Html Link **(Use for final review because it has the interactive plots and paper was made with Html in mind)**: https://rpubs.com/ZWin1234/1379033
 
 # Introduction
-Trust in politicians has been declining steadily throughout the 2000s, with the United States experiencing record-low levels of public confidence in elected officials to act in citizens’ best interests. Despite this decline, the 2016, 2020, and 2024 general elections saw unusually high voter turnout in the state of Florida. This raises a central question: if aggregated trust in politicians is consistently falling, why are citizens still turning out to vote at high rates?
+Trust in politicians has been declining steadily throughout the 2000s, with the United States experiencing record-low levels of public confidence in elected officials to act in citizens’ best interest. Despite this decline, the 2016, 2020, and 2024 general elections saw unusually high voter turnout in the state of Florida. This raises a central question: if overall trust in politicians is consistently falling, why are citizens still turning out to vote at high rates?
 
-This period is especially important to examine because it spans several major national events things includes the years immediately before the COVID-19 pandemic, the pandemic itself, and the subsequent recovery. One might expect that declining trust during such crises would lead individuals to disengage from politics rather than participate. Yet turnout increased. This paper investigates what factors may motivate citizens to vote even when trust in political leaders is low and explores what might explain the persistence of electoral participation in the face of widespread distrust.
+This period of time is especially important to examine because it spans several major national events things includes the years immediately before the COVID-19 pandemic, the pandemic itself, and the subsequent recovery. One might expect that declining trust during such crises would lead individuals to disengage from politics rather than participate. Yet turnout increased. This paper investigates what factors may motivate citizens to vote even when trust in political leaders is low and explores what might explain the persistence of electoral participation in the face of widespread distrust.
 
 
 # High Poltical Distrust Yet High Vote Turnout
 
-When you turn on the TV, radio, or social media in the fall, what do you expect to see. Some people watch the return of football, some want to see the best ways to prepare for the incoming cold, and others listen to what is happening in the news. In between what you want to be watching, you will see advertisements for your local politicians trying to sign their election for Congress. He or she grandstands about how they will fight for you and your community’s voice in the nation’s capital and proclaim that they will be your voice. The question that naturally comes next is how much people actually trust their politicians to have them in mind when they finally do get elected. 
+When you turn on the TV, radio, or social media in the fall, what do you expect to see. Some people watch the return of football, some want to see the best ways to prepare for the incoming cold weather, and others listen to what is happening in the news. In between what you want to be watching, you will see advertisements for politicians trying to win their elections. He or she may grandstands about how they will fight for you and your community’s voice in the nation or state capital and proclaim that they will be your voice. The question that naturally comes next is how much people actually trust their politicians to have them in mind when they finally do get elected. 
 
-What PEW Research explored in their work on public trust in politicians was the decline in how much confidence the public has in their elected officials. They found that the average level of trust in politicians has lowered over time. Specifically, from 2000 to 2024, their study shows a drop from an average of about 40 percent trust in the early 2000s to around 20 percent on average from 2010 to today. This research combines results from different public polls that ask about trust in politicians and aggregates the ratings. The graph below shows what the PEW data found.
+PEW Research explored this question in their work on voters trust in politicians. Their findings saw a decline in how much confidence the public has in their elected officials. They found that the average level of trust in politicians has lowered over time. Specifically, from 2000 to 2024, their study shows a drop from an average of about 40 percent trust in the early 2000s to around 20 percent on average from 2010 to today. This research combines results from different public polls that ask about trust in politicians and aggregates the ratings. The graph below shows what the PEW data found.
 
 ```{r include=FALSE}
 Pew_PD <- read.csv("Pew_PD.csv")
@@ -76,7 +78,7 @@ Pew_PD_2000$Individual_polls <- as.numeric(
 )
 ```
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 
  ggplot(Pew_PD_2000, aes(x = Date2, y = Individual_polls)) +
   geom_line(color = "steelblue", size = 1) +
@@ -94,9 +96,9 @@ Pew_PD_2000$Individual_polls <- as.numeric(
   )
 ```
 
-This research would suggest that the average voter has little trust in a politician to have their self-interest in mind. The act of voting has been described in research by political scientists such as V. O. Key as a cost–benefit analysis, requiring people to weigh their reasons for voting against the small gain they receive from actually doing it. There is a process to registering, obtaining an absentee ballot, voting early, or making time on Election Day to vote, especially when there are no universal laws guaranteeing those access points or paid time off to vote. With that reasoning, it would be reasonable to assume that voting would likely decrease if voters have no trust and the cost of voting is high enough that they would need a strong reason to go out of their way to cast a ballot.
+This research would suggest that the average voter has little trust in a politician to have their self-interest in mind. The act of voting has been described in research by political scientists such as V. O. Key as a cost–benefit analysis, requiring people to weigh their reasons for voting against the small gain they receive from actually doing it. There is a process to registering, casting their ballot either as an absentee ballot(mail), voting early, or making time on Election Day to vote, especially when there are no universal laws guaranteeing those access points or paid time off to vote. With that reasoning, it would be reasonable to assume that voting would likely decrease if voters have no trust and the cost of voting is high enough that they would need a strong reason to go out of their way to cast a ballot.
 
-This is not the case in Florida. When visiting the Florida Board of Elections website, what is shown is that the total vote percentage in Florida has increased in each presidential general election. Voter turnout went from 74.5 to 77.2 to 78.9 percent. I then went further and examined whether these high vote percentages were stable across all counties or if they were concentrated in certain areas. After scraping the Florida Board of Elections website to gather the percent of votes cast in each county, I used that county-level data to examine how this movement was distributed. What is shown below is how that scraped county-level data portrays this change. What this graph shows is that… 
+Recent years have shown this is not the case in Florida. When visiting the Florida Board of Elections website, what is shown is that the total vote percentage in Florida has increased in each presidential general election. Voter turnout went from 74.5 to 77.2 to 78.9 percent. I then went further and examined whether these high vote percentages were stable across all counties or if they were concentrated in certain areas. After scraping the Florida Board of Elections website to gather the percent of votes cast in each county, I used that county-level data to examine how this movement was distributed. What is shown below is how that scraped county-level data portrays this change.
 
 ```{r flvoting scrape, eval=FALSE, include=FALSE}
 url_2016 <- "https://results.elections.myflorida.com/TurnoutRpt.asp?DATAMODE=&ElectionDate=11/8/2016"
@@ -204,7 +206,7 @@ graph1
 
 (To add context, I include an interactive plot where each point represents a county to show exactly where all 67 counties in Florida fall on the plot. You can double click a county name in the legend to isolate a single county and see the vote percentage it had in each of the three presidential general election years.)
 
-```{r echo=FALSE, warning=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 df <- turnout_long
 # Base plot
 p <- plot_ly(
@@ -345,15 +347,17 @@ all_counties_change <- merged_turnout %>%
 all_counties_change
 ```
 
-When isolating the movement of each county’s vote percentage, what is found is that 59 counties saw a consistent increase from 2016 to 2024, while 7 counties showed a decrease and 2 remained the same. This suggests that the overall increase in the total number of registered voters casting a vote has pushed statewide turnout into the high seventies over these general elections. This then brings up the question that if voters have low trust in politicians to legislate on their behalf, what is motivating them to go out and vote.
+What this graph of all the counties movement shows is that voting perfent seems to have a postive trend throughout most counties in Florida. When isolating the movement of each county’s vote percentage, what is found is that fifty-nine counties saw a consistent increase from 2016 to 2024, while seven counties showed a decrease and two remained the same. This suggests that the overall increase in the total number of registered voters casting a vote has pushed statewide turnout into the high seventies over these general elections. This then brings up the question that if voters have low trust in politicians to legislate on their behalf, what is motivating them to go out and vote.
 
-This paper seeks to explore some of the reasons why a voter will go out of their way to cast a vote. I address this by examining three different data sets. First, I explore census data. At the county level, I examine which aspects, such as population size, household income, or other demographic measures, can help explain voting. Second, I look at the number of COVID cases to see whether the largest public health and financial turmoil in recent history had any effect on the rate of change in voting within each county. Finally, I explore media coverage, specifically the type of news the New York Times released about Florida politicians. This data examines how the sentiment behind headlines and descriptions of the news could reflect the kind of information voters were consuming.
+This paper seeks to explore some of the reasons why a voter will go out of their way to cast a vote. I address this by examining three different data sets. First, I explore census data. At the county level, I examine which aspects, such as population size, household income, or other demographic measures, can help explain voting. Second, I look at the number of COVID cases in each county to see whether the largest public health and financial turmoil in recent history had any effect on the rate of change in voting within each county. Finally, I explore media coverage, specifically the type of news the New York Times released about Florida politicians. I examine the frequency of words used and the sentiment behind the articles to see how the media could influence voters perspective on politicians.
 
 
 # Census Exploration 
-First, when examining what could be explanatory of voting, it is important to look at county-level demographics and statistics that could help explain voting patterns. To accomplish this, I used data from the Census to gather county-level information in Florida. Using the Census API, I collected the 5-year ACS data to compare demographic measures and merge them with the data I scraped from the Florida election website. The reason for choosing the 5-year ACS data is that the 2020 and 2024 1-year ACS datasets are not suitable for representative county-level analysis. The 2024 1-year ACS is not accessible, and the 2020 1-year ACS is considered an experimental survey that is not comparable to other 1-year estimates. To address this, I relied on the 5-year ACS and averaged the vote percentages from the Florida election data. This allows me to examine which demographic factors could influence the increasing vote percentages across counties. This dataset focuses on what might motivate a person to vote even when the public, on average, shows low trust in politicians, helping explain why distrust does not necessarily prevent individuals from voting.
+First, when examining what could be explanatory of voting, it is important to look at county-level demographics and statistics that could help explain voting patterns. This is because county level data allows us to better exmaine trends because of how differnt the demogprhaics and lifestyle voter have in differnt counties. To accomplish this, I used data from the Census to gather county-level information in Florida. Using the Census API, I collected the 5-year ACS data to compare demographic measures and merge them with the data I scraped from the Florida election website. The reason for choosing the 5-year ACS data is that the 2020 and 2024 1-year ACS datasets are not suitable for representative county-level analysis. The 2024 1-year ACS is not accessible, and the 2020 1-year ACS is considered an experimental survey that is not comparable to other 1-year estimates. To address this, I relied on the 5-year ACS and averaged the vote percentages from the Florida election data for the years that fit in that ACS frame, being 2016 and 2020. This allows me to examine which demographic factors could influence the increasing vote percentages across counties. This data set focuses on what might motivate a person to vote even when the public, on average, shows low trust in politicians, helping explain why distrust does not necessarily prevent individuals from voting.
 
-To examine what census-level demographic information might help explain the vote percentage, I ran two multiple regression models to look at what observational effects these demographics can have on voting levels for each county. The reason for running two regression models is to examine two different levels of voting. First, I look at an individual level to examine why an individual with certain demographics in a county would go and vote. Next, I look at what would change the overall vote percentage. This examines what factors would increase the share of registered voters in a county who actually turn out to vote. These two regressions are used to examine what explains voting at the individual level and then what explains changes in the percent of registered voters, looking more at the county as a whole.
+To examine what census-level demographic information might help explain the vote percentage, I ran two multiple regression models to look at what observational effects these demographics can have on voting levels for each county. The reason for running two regression models is to examine two different levels of voting. First, I look at an average vote count level, which uses average turnout as a response, to examine what causes a single vote increase to occur. Next, I look at what would change the overall vote percentage by looking at average vote percent as the response variable. This examines what factors would increase total share of registered voters in a county who actually turn out to vote. 
+
+These two regressions are used to examine what explains voting at a individual count level and at a percent change. This allows a perceptive at what causes a single vote increase and what causes the total percent increase to go up by one.
 
 ```{r include=FALSE}
 key <- readLines("census-key.txt")
@@ -568,16 +572,15 @@ tab %>%
 ```
 
 
-What these regression models suggest is that there are certain demographics that help explain changes in both individual voting behavior and overall vote percentage within the counties. At the individual level, what we see is that being male, population size, and education level (having a bachelor’s degree or higher) all show significance in the model. This is fairly standard in studies of individual-level motivations for voting. Looking at percent vote, the attributes that explain changes in the vote percentage include household income, age, median home value, and median rent.
+What these regression models suggest is that there are certain demographics that help explain changes in voter turnout both by individual increases and by overall percentage. What is shown is that for the average vote turnout, factors that showed significance in the model were the total population of the county, the number of males, the poverty count, and the amount of education people had in the county. For percent vote, factors such as median home value, median rent cost, household income, and age were all significant predictors of the change in vote percent.
 
-Takeaways from these regression models show that at the individual level, education, poverty, and the number of males all have significant effects on total votes. When looking at changes in the percent of voters, we see that economic indicators explain these larger shifts. This can mean that certain individual markers, such as gender and education, may motivate why a person chooses to vote, but to explain the change in the overall vote percentage, the larger-scale factors are more focused on the economics of a county. Indicators such as income and home value are more explanatory of why vote percentages increase, while higher rents can have a negative effect on vote counts.
+What is shown from these regressions is that the demographics that are significant predictors of voter turnout and the percent change in voter turnout come from different areas. For the individual turnout amount, the predictors are more based on demographics that are harder to control. Gender, total population, poverty, and education levels are very individual level factors. For the predictors of vote percent change, the results show that factors such as how much the average rent costs in a county or the household income are more predictive of how the percent of voter turnout will rise or fall.
 
-What we can take away from this is that even though levels of distrust may come from certain demographic groups, at the vote percent level it seems that the people who are most explanatory of higher turnout are those with larger incomes and more expensive homes. This shows that the percent of citizens who already have advantages in the United States, such as owning a home or having a higher income, may see the system working in their favor. This can motivate them to continue supporting politicians because they believe those politicians have their self-interest in mind.
-
+What the main takeaway here is that the factors that are predictive of the individual turnout amount and the factors that predict the shift in the percent of all registered voters are different. To see higher increases in voting by a unit of one, it can depend on demographics such as education, poverty, population, and gender. However, to see shifts in vote percent based on the entire pool of registered voters, the factors that explain this are more about the economics of the county. If rent is cheaper, if houses are more expensive, or what the average income is, those factors help explain how shifts in voting by percent will occur. In conclusion, what we find is that the motivation for a single increase in voting can be different from what causes the overall percent of voters in a county to show a substantive shift toward more registered voters actually voting. This helps suggest that voting is more complicated depending on how you measure what is predictive. Here, the levels are individual voter count versus vote turnout percent.
 
 # 2020 COVID Cases Affect on County Vote Percent Change
 
-Next, what I take a look at is how COVID affected the amount of voters between 2016, 2020, and 2024 for the presidential general elections. The reason to explore this is connected to the central ideas of public service. COVID was one of the largest and most devastating public health crises in recent history. It is important to examine how the percent of voting changed across these three elections. 
+Next, what I take a look at is how COVID affected the amount of voters between 2016, 2020, and 2024 for the presidential general elections. The reason to explore this is connected to the central ideas of why government and public service exist. COVID was one of the largest and most devastating public health crises in recent history. It is important to examine how the percent of voting changed across these three elections. This can give insight into whether voters felt that during a moment of crisis they would be more committed or motivated to vote in order to get politicians into office who could help with the crisis.
 
 I examine this by using the COVID case data available from the University of South Florida website and merging it with the voter turnout data. Specifically, I created the percent change that occurs over the three elections in question. To properly examine this change, I include an interactive plot that shows the total COVID cases a county had in 2020 and the change in its voter turnout percent across those years. In this interactive plot, you can single out a county by using the legend and double clicking the county you want to explore.
 
@@ -601,6 +604,24 @@ co_change$CasesAll <- as.numeric(as.character(co_change$CasesAll))
 str(co_change$CasesAll)
 
 co_change <- co_change[-68, ]
+```
+
+```{r eval=FALSE, include=FALSE}
+
+ggplot(co_change, aes(x = change_16_24, y = CasesAll, color = County)) +
+  geom_point(size = 3, alpha = 0.8) +
+  labs(
+    title = "COVID Cases vs Voter Turnout Change (2016 → 2024)",
+    x = "Voter Turnout Change (2016 → 2024)",
+    y = "COVID Cases (Total CasesAll)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 18),
+    legend.position = "none"  # hides the 67-county legend which would clutter the plot
+  )
+
+
 ```
 
 ```{r echo=FALSE}
@@ -632,9 +653,12 @@ p_interactive
 
 What is found in this plot is that more counties had a positive increase in voter percent. For COVID cases, there does not appear to be a trend where larger numbers of COVID cases in a county lead to the largest percent increase in voting. The counties with the highest change in turnout were actually small counties in Florida that had fewer than three thousand COVID cases. These smaller, more rural counties could have been affected harder by COVID because of limited access to hospitals, which could explain some of the effects we see. Another thing that stands out is that Miami Dade had two hundred fifty thousand COVID cases, yet it showed no turnout change.
 
-What this data suggests is that there is not a systematic connection between increasing voter turnout and the effect of COVID cases. This suggests that the increase in voting in counties in Florida was not directly motivated by the amount of COVID cases. It also suggests that there is another motivating factor that leads people to get out and vote. This means that trust in politicians to have the interests of voters may not be fully explanatory. Even during the worst public health crisis seen in recent history, there does not seem to be a systematic relationship between COVID cases and the increasing vote percent in each county. This suggests that something else was motivating Florida counties to see a sustained increase in the number of people voting.
+What this data suggests is that there is not a systematic connection between increasing voter turnout and the effect of COVID cases. This suggests that the increase in voting in counties in Florida was not directly motivated by the amount of COVID cases. It also suggests that there is another motivating factor that leads people to get out and vote. This means that trust in politicians to have the interests of voters may not be fully explanatory because we don't see a trend of increased voting connected with large amounts of COVID cases in the height on the pandemic. Even during the worst public health crisis seen in recent history, there does not seem to be a systematic relationship between COVID cases and the increasing vote percent in each county. This can suggest that something else was motivating Florida counties to see a sustained increase in the number of people voting.
+
 
 # Medias Portrayal of Politicians
+
+
 ```{r eval=FALSE, include=FALSE}
 nyt_key <- readLines("nyt-key.txt")
 ```
@@ -752,9 +776,9 @@ articles_2020 <- readRDS("/Users/zacharywinograd/R Studios Folders/SURV 727/Fina
 ```
 
 
-Next, what I look into is how the media may affect voters. There is not a direct way to examine how this media might influence their likelihood to vote, but what can be examined is how the framing of news from a large news company may shape the information that voters consume. To explore this, I used the New York Times API to examine news articles that included a Florida politician in the title. To do this, I included all well known Florida politicians from the 2016 and 2020 cycles in those election years. These election years were chosen because the study of voter motivation is most meaningful when the focus is on the period leading into an election. Voters tend to pay attention to what is right in front of them, so to measure that short lead up into an election cycle, I examined the year of news beginning in January and continuing through the end of the year when the elections are held. 2016 and 2020 were the only years aviable because of the 2024 cycle in the NYT has not been posted to hte API. 
+Next, what I look into is how the media may affect voters. There is not a direct way to examine how this media might influence their likelihood to vote, but what can be examined is how the framing of news from a large news company may shape the information that voters consume. To explore this, I used the New York Times API to grab and then examine news articles that included a Florida politician in the title. To do this, I included all well known Florida politicians from the 2016 and 2020 cycles in those election years in my API search. These election years were chosen because the study of voter motivation is most meaningful when the focus is on the period leading into an election. Voters tend to pay attention to what is right in front of them, so to measure that short lead up into an election cycle, I examined the year of news beginning in January and continuing through the end of the year when the elections are held. The years 2016 and 2020 were the only ones available because the 2024 cycle in the New York Times API has not yet been posted.
 
-First I examine what words show up the most in the articles. This is shown in the graph below
+First, I examine what words show up the most in the articles. This is done by taking the article headlines and introductory statements and measuring the frequency of the words that appear. This is shown in the graph below.
 
 ```{r include=FALSE}
 # Add year column
@@ -811,11 +835,12 @@ ggplot(combined_top, aes(x = total_n, y = word)) +
   )
 
 ```
-What is shown is that in these 300 plus articles is that names like Marco Rubio the sentaor from Florida at the time, Donald Trump (the president in 2016 and Republican candidate in 2020), and Rick Scott all show up hundreds of times in the titles and descriptions of these NYT articles. Other key words brought up hundreds of time is words like. campaign, republican, and senator. What this tells us is news that is talking about Florida politcians is focused more on prominent figures like senatora or the presdiental candiadte that lives in the state. Another is that because of Republican contorl of the state in thse positions that alot of the information in a natinoal news paper has republicans more of the focus. This can also be because of the main politicans being of that party. 
 
 
-Next i look at the changing of words form 2016 to 2020 and see what is changing in the information that is being portrayed. What is seen is that news on the pandemic like death and dies saw an increase in articles about politicians where the focus in 2020 saw poltivcians that werent in the cycle like Marco Rubio, Rick Scott, or Ted Cruz saw politician news were dimisnihed. What this shows is that news media changes heavily through each year where the stories are depedent are what people would be most interested in seeing. 
 
+What these frequnecies show is that in three hundred plus articles names like Marco Rubio, who was a senator from Florida at the time, Donald Trump, who was the president in 2016 and the Republican candidate in 2020, and Rick Scott all appear hundreds of times in the titles and descriptions of the New York Times articles. Other key words that show up hundreds of times are words like campaign, republican, and senator. What this tells us is that news coverage that talks about Florida politicians is focused mostly on prominent figures such as senators or the presidential candidate who lives in the state. Another point is that because Republicans controlled many of the major political positions in the state during these years, much of the information in a national newspaper puts Republicans at the center of the coverage. This can also be explained by the fact that the best known Florida politicians during this period were from that party.
+
+Next, I look at the change in words from 2016 to 2020 to see what is shifting in the information being portrayed. What is seen is that news related to the pandemic, such as death and dies, saw an increase in articles about politicians, while the focus on politicians who were not in the election cycle, like Marco Rubio, Rick Scott, or Ted Cruz, decreased. What this shows is that news media changes heavily from year to year, and the stories are dependent on what people are most interested in at that time.
 
 ```{r include=FALSE}
 freq_compare <- word_freq_by_year %>%
@@ -861,7 +886,8 @@ ggplot(plot_data, aes(x = Frequency, y = reorder(word, Frequency))) +
 ```
 
 
-What I examine next is what each headline and introductory statement sentmient tells us. What is examined is exactly how powerful all these articles are. After exmaining the frquenecy of the words we see that there is a focus on rpeulibcan polticians and on the pandemic and what is occuring. What I exmiane next is taking the headlines words and finding the meaning behind the words. What is measured is the setniment measuring from -1 to 1 how strong the words being used are. This analysis is used to see hwo strong the langauge for these headlines are. This is to see one thing that is the informaiton being presetned something that tries to get people to stop and look at the news. This coudl have an affect in riling voters up and providing strongly emotinaotl or snetiametal informaiton that could charge them if that level of snetiment is felt in artilces. 
+Finally I examine the sentiment each headline and introductory statement tells us. What is analyzed is how strong the language in these articles are After examining the frequency of the words, we see that there is a focus on Republican politicians and on the pandemic and what is happening. What I examine next is the meaning behind the words that appear in the articles The sentiment is measured on a scale from negative one to one to show how strong the words being used are. This analysis helps show how powerful the language in these headlines is. The goal is to see whether the information being presented is something that tries to get people to stop and pay attention to the news. This could affect voters by creating strong emotional responses or strong sentimental reactions that might motivate them if that level of sentiment is present in the articles.
+
 
 ```{r include=FALSE}
 if(!require('reticulate')) install.packages("reticulate")
@@ -922,6 +948,18 @@ sent_2020 <- sapply(sent_2020_raw, to_score)
 
 ```
 
+```{r eval=FALSE, include=FALSE}
+saveRDS(sent_2016, "sent_2016_scores.rds")
+saveRDS(sent_2020, "sent_2020_scores.rds")
+```
+
+```{r eval=FALSE, include=FALSE}
+sent_2016 <- readRDS("sent_2016_scores.rds")
+sent_2020 <- readRDS("sent_2020_scores.rds")
+
+```
+
+
 ```{r include=FALSE}
 mean_2016 <- mean(sent_2016)
 mean_2020 <- mean(sent_2020)
@@ -954,10 +992,9 @@ ggplot(df_sent, aes(x = sentiment, fill = factor(year))) +
 
 ```
 
-What is shown in this plot is that the highest denisty of articles have words that score at the strongest ends of the snetiment analysis scores. There is very little articles have strong sentiment scores. Another thing that sticks out is the peaks for both 2020 and 2016 are at both ends of the scale. This suggests that highest denisty of articles have strong langauge used as their headlines.
+What is shown in this plot is that the highest density of articles contains words that score at the strongest ends of the sentiment analysis scale. There are very few articles that have extremely strong sentiment scores. Another thing that stands out is that the peaks for both 2020 and 2016 are at both ends of the scale. This suggests that the highest density of articles uses strong language in their headlines.
 
-In conclusion for the NYT data what is shown is that what is portrayed will be things that are poplar not that things will show to sided stories for politcis. This is shown by republicans being the only one to have frequnecy in the NYT headlines. Second what I found is that the sentiment behind the articles are made with more powerful lanaguge and themes rather than more informative or mild headlines and themes to the paper. This can suggests beyond the New York Times are fairly journlistic and not just tabloid headlines that voters will get infromation that is loaded and have strong words and themes used to get them to read the articles. This can suggests that trust might not have to be explanotry if emotions and feeling sbeyond what a politcian can do for you potlically but culture or emotinoally a voter might be so riled up that it motivate them. This data does not get to look at the direct affects but the way the NYT portray these headlines and what they talk about can be explontory on how people consume media. If the NYT is portraying articles this stronger it is assumed that other forms of media that of indepdent creators, those are streaming platoforms like twitch that do poltical stores, and other forms of pooular media today may be explanotry by what can rile up voters. 
-
+In conclusion for the New York Times data, what is shown is that what is portrayed tends to be what is popular, not necessarily balanced or two sided stories about politics. This is shown by the fact that Republicans are the only group with high word frequency in the New York Times headlines. Second, what I found is that the sentiment behind the articles is shaped by more powerful language and themes rather than mild or strictly informative headlines. This suggests that even though the New York Times is a fairly traditional and respected news source, voters are still receiving information that is emotionally loaded, with strong words and strong themes used to get them to read the articles. This suggests that trust might not be the only explanation for voting. Emotions and feelings beyond what a politician can do for someone politically, including cultural or emotional reactions, may motivate voters who feel strongly enough to act. This data does not measure direct effects, but the way the New York Times frames its headlines and chooses what to talk about can be explanatory for how people consume media. If the New York Times is portraying articles with this level of emotional weight, it is reasonable to assume that other forms of media, such as independent creators, streaming platforms like Twitch that discuss political stories, and other popular media sources today, may also play a role in riling up voters.
 
 # Conclusion
 

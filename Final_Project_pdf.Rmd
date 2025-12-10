@@ -1,5 +1,5 @@
 ---
-title: "Final_Project_pdf_version"
+title: "Why Voter Turnout Increases While Trust in Politicians Diminishes: Florida Exploratory Study (pdf version)"
 author: "Zachary Winograd"
 date: "2025-12-10"
 output:
@@ -33,10 +33,13 @@ library(censusapi)
 
 ```
 
-# Introduction
-Trust in politicians has been declining steadily throughout the 2000s, with the United States experiencing record-low levels of public confidence in elected officials to act in citizens’ best interests. Despite this decline, the 2016, 2020, and 2024 general elections saw unusually high voter turnout in the state of Florida. This raises a central question: if aggregated trust in politicians is consistently falling, why are citizens still turning out to vote at high rates?
+Github link: https://github.com/Zackwin73/SURVMETH-727-Final-Project
+Html Link **(Use for final review because it has the interactive plots and paper was made with Html in mind)**:
 
-This period is especially important to examine because it spans several major national events things includes the years immediately before the COVID-19 pandemic, the pandemic itself, and the subsequent recovery. One might expect that declining trust during such crises would lead individuals to disengage from politics rather than participate. Yet turnout increased. This paper investigates what factors may motivate citizens to vote even when trust in political leaders is low and explores what might explain the persistence of electoral participation in the face of widespread distrust.
+# Introduction
+Trust in politicians has been declining steadily throughout the 2000s, with the United States experiencing record-low levels of public confidence in elected officials to act in citizens’ best interest. Despite this decline, the 2016, 2020, and 2024 general elections saw unusually high voter turnout in the state of Florida. This raises a central question: if overall trust in politicians is consistently falling, why are citizens still turning out to vote at high rates?
+
+This period of time is especially important to examine because it spans several major national events things includes the years immediately before the COVID-19 pandemic, the pandemic itself, and the subsequent recovery. One might expect that declining trust during such crises would lead individuals to disengage from politics rather than participate. Yet turnout increased. This paper investigates what factors may motivate citizens to vote even when trust in political leaders is low and explores what might explain the persistence of electoral participation in the face of widespread distrust.
 
 
 # High Poltical Distrust Yet High Vote Turnout
@@ -477,6 +480,13 @@ ggplot(co_change, aes(x = change_16_24, y = CasesAll, color = County)) +
     legend.position = "none"  # hides the 67-county legend which would clutter the plot
   )
 ```
+
+
+**(included static graph for show use the HTML link to see the interactive plot)** 
+
+What is found in this plot is that more counties had a positive increase in voter percent. For COVID cases, there does not appear to be a trend where larger numbers of COVID cases in a county lead to the largest percent increase in voting. The counties with the highest change in turnout were actually small counties in Florida that had fewer than three thousand COVID cases. These smaller, more rural counties could have been affected harder by COVID because of limited access to hospitals, which could explain some of the effects we see. Another thing that stands out is that Miami Dade had two hundred fifty thousand COVID cases, yet it showed no turnout change.
+
+What this data suggests is that there is not a systematic connection between increasing voter turnout and the effect of COVID cases. This suggests that the increase in voting in counties in Florida was not directly motivated by the amount of COVID cases. It also suggests that there is another motivating factor that leads people to get out and vote. This means that trust in politicians to have the interests of voters may not be fully explanatory. Even during the worst public health crisis seen in recent history, there does not seem to be a systematic relationship between COVID cases and the increasing vote percent in each county. This suggests that something else was motivating Florida counties to see a sustained increase in the number of people voting.
 
 # Medias Portrayal of Politicians
 
