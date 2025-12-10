@@ -15,16 +15,26 @@ By combining these datasets, the project evaluates whether voter engagement may 
 ## HTML Report (RPubs)
 View the full interactive HTML version of the project here:  
 **[file:///Users/zacharywinograd/R%20Studios%20Folders/SURVMETH-727-Final-Project/Final_Project.html](https://rpubs.com/ZWin1234/1379033)**
+- `Final_Project.html`
 
 ## PDF Report
 The full PDF version is included in this repository:  
-- `Final_Project.pdf`
+- `Final_Project_pdf.pdf`
 
-## Data Files
-- `data/` folder contains cleaned datasets used in the analysis.
+## Data Files saved or created and then used( All data execpt for Pew_PD and Florida_COVID_CASES_0 were gathered from scraping, API, made for text analysis tasks)
+- `Pew_PD.csv ` 
+- `Florida_COVID_CASES_0.csv`
+- `tunrout_2016.csv`
+- `tunrout_2020.csv`
+- `tunrout_2024.csv`
+- `sent_2016_scores.rds`
+- `sent_2020_scores.rds`
+- `articles_2016.rds`
+- `articles_2020.rds`
 
 ## R Markdown Source
 - `Final_Project.Rmd` (main analysis)
+- `Final_Project_pdf.Rmd` (Rmd used to convert project into pdf friendly output)
 
 ## Overview
 This project analyzes county-level voter turnout across Florida using data from:
