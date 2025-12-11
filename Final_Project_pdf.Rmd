@@ -42,7 +42,7 @@ Trust in politicians has been declining steadily throughout the 2000s, with the 
 
 This period of time is especially important to examine because it spans several major national events things includes the years immediately before the COVID-19 pandemic, the pandemic itself, and the subsequent recovery. One might expect that declining trust during such crises would lead individuals to disengage from politics rather than participate. Yet turnout increased. This paper investigates what factors may motivate citizens to vote even when trust in political leaders is low and explores what might explain the persistence of electoral participation in the face of widespread distrust.
 
-# High Poltical Distrust Yet High Vote Turnout
+# High Poltical Distrust Yet High Voter Turnout
 
 When you turn on the TV, radio, or social media in the fall, what do you expect to see. Some people watch the return of football, some want to see the best ways to prepare for the incoming cold weather, and others listen to what is happening in the news. In between what you want to be watching, you will see advertisements for politicians trying to win their elections. He or she may grandstands about how they will fight for you and your community’s voice in the nation or state capital and proclaim that they will be your voice. The question that naturally comes next is how much people actually trust their politicians to have them in mind when they finally do get elected. 
 
@@ -497,7 +497,7 @@ What is found in this plot is that more counties had a positive increase in vote
 
 What this data suggests is that there is not a systematic connection between increasing voter turnout and the effect of COVID cases. This suggests that the increase in voting in counties in Florida was not directly motivated by the amount of COVID cases. It also suggests that there is another motivating factor that leads people to get out and vote. This means that trust in politicians to have the interests of voters may not be fully explanatory because we don't see a trend of increased voting connected with large amounts of COVID cases in the height on the pandemic. Even during the worst public health crisis seen in recent history, there does not seem to be a systematic relationship between COVID cases and the increasing vote percent in each county. This can suggest that something else was motivating Florida counties to see a sustained increase in the number of people voting.
 
-# Medias Portrayal of Politicians
+# Media’s Portrayal of Politicians
 
 ```{r include=FALSE}
 articles_2016 <- readRDS("/Users/zacharywinograd/R Studios Folders/SURV 727/Final Project Folder/articles_2016.rds")
@@ -566,6 +566,7 @@ ggplot(combined_top, aes(x = total_n, y = word)) +
   )
 
 ```
+
 What these frequencies show is that in three hundred plus articles names like Marco Rubio, who was a senator from Florida at the time, Donald Trump, who was the president in 2016 and the Republican candidate in 2020, and Rick Scott all appear hundreds of times in the titles and descriptions of the New York Times articles. Other key words that show up hundreds of times are words like campaign, republican, and senator. What this tells us is that news coverage that talks about Florida politicians is focused mostly on prominent figures such as senators or the presidential candidate who lives in the state. Another point is that because Republicans controlled many of the major political positions in the state during these years, much of the information in a national newspaper puts Republicans at the center of the coverage. This can also be explained by the fact that the best known Florida politicians during this period were from that party.
 
 
