@@ -101,7 +101,7 @@ This research would suggest that the average voter has little trust in a politic
 
 Recent years have shown this is not the case in Florida. When visiting the Florida Board of Elections website, what is shown is that the total vote percentage in Florida has increased in each presidential general election. Voter turnout went from 74.5 to 77.2 to 78.9 percent. I then went further and examined whether these high vote percentages were stable across all counties or if they were concentrated in certain areas. After scraping the Florida Board of Elections website to gather the percent of votes cast in each county, I used that county-level data to examine how this movement was distributed. What is shown below is how that scraped county-level data portrays this change.
 
-```{r flvoting scrape, eval=FALSE, include=FALSE}
+```{r flvoting scrape, include=FALSE}
 url_2016 <- "https://results.elections.myflorida.com/TurnoutRpt.asp?DATAMODE=&ElectionDate=11/8/2016"
 page_2016 <- read_html(url_2016)
 turnout_2016 <- page_2016 %>% html_table(fill = TRUE) %>% .[[1]]
@@ -702,11 +702,11 @@ What this data suggests is that there is not a systematic connection between inc
 # Media’s Portrayal of Politicians
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 nyt_key <- readLines("nyt-key.txt")
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 get_archive_month <- function(year, month, key) {
   url <- paste0(
     "https://api.nytimes.com/svc/archive/v1/",
@@ -718,7 +718,7 @@ get_archive_month <- function(year, month, key) {
 }
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 
 `%||%` <- function(x, y) if (!is.null(x)) x else y
 
@@ -763,7 +763,7 @@ is_fl_politician <- function(headline) {
 
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 articles_2016 <- purrr::map_df(1:12, function(m) {
   message("2016 - Downloading month ", m)
   
@@ -784,7 +784,7 @@ head(articles_2016)
 
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 articles_2020 <- purrr::map_df(1:12, function(m) {
   message("2020 - Downloading month ", m)
   
@@ -806,12 +806,12 @@ head(articles_2020)
 
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 saveRDS(articles_2016, "articles_2016.rds")
 saveRDS(articles_2020, "articles_2020.rds")
 ```
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 articles_2016 <- readRDS("/Users/zacharywinograd/R Studios Folders/SURV 727/Final Project Folder/articles_2016.rds")
 
 articles_2020 <- readRDS("/Users/zacharywinograd/R Studios Folders/SURV 727/Final Project Folder/articles_2020.rds")
