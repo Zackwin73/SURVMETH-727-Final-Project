@@ -42,7 +42,6 @@ Trust in politicians has been declining steadily throughout the 2000s, with the 
 
 This period of time is especially important to examine because it spans several major national events things includes the years immediately before the COVID-19 pandemic, the pandemic itself, and the subsequent recovery. One might expect that declining trust during such crises would lead individuals to disengage from politics rather than participate. Yet turnout increased. This paper investigates what factors may motivate citizens to vote even when trust in political leaders is low and explores what might explain the persistence of electoral participation in the face of widespread distrust.
 
-
 # High Poltical Distrust Yet High Vote Turnout
 
 When you turn on the TV, radio, or social media in the fall, what do you expect to see. Some people watch the return of football, some want to see the best ways to prepare for the incoming cold weather, and others listen to what is happening in the news. In between what you want to be watching, you will see advertisements for politicians trying to win their elections. He or she may grandstands about how they will fight for you and your community’s voice in the nation or state capital and proclaim that they will be your voice. The question that naturally comes next is how much people actually trust their politicians to have them in mind when they finally do get elected. 
@@ -210,6 +209,7 @@ What this graph of all the counties movement shows is that voting percent seems 
 This paper seeks to explore some of the reasons why a voter will go out of their way to cast a vote. I address this by examining three different data sets. First, I explore census data. At the county level, I examine which aspects, such as population size, household income, or other demographic measures, can help explain voting. Second, I look at the number of COVID cases in each county to see whether the largest public health and financial turmoil in recent history had any effect on the rate of change in voting within each county. Finally, I explore media coverage, specifically the type of news the New York Times released about Florida politicians. I examine the frequency of words used and the sentiment behind the articles to see how the media could influence voters perspective on politicians.
 
 # Census Exploration 
+
 First, when examining what could be explanatory of voting, it is important to look at county-level demographics and statistics that could help explain voting patterns. This is because county level data allows us to better examine trends because of how different the demogprhaics and lifestyle voter have in different counties. To accomplish this, I used data from the Census to gather county-level information in Florida. Using the Census API, I collected the 5-year ACS data to compare demographic measures and merge them with the data I scraped from the Florida election website. The reason for choosing the 5-year ACS data is that the 2020 and 2024 1-year ACS datasets are not suitable for representative county-level analysis. The 2024 1-year ACS is not accessible, and the 2020 1-year ACS is considered an experimental survey that is not comparable to other 1-year estimates. To address this, I relied on the 5-year ACS and averaged the vote percentages from the Florida election data for the years that fit in that ACS frame, being 2016 and 2020. This allows me to examine which demographic factors could influence the increasing vote percentages across counties. This data set focuses on what might motivate a person to vote even when the public, on average, shows low trust in politicians, helping explain why distrust does not necessarily prevent individuals from voting.
 
 To examine what census-level information might help explain why votes are being cast, I ran two multiple regression models to look at what observational effects these demographics can have on voting levels for each county. The reason for running two regression models is to examine two different levels of voting. First, I look at an average vote count level, which uses average turnout as the response, to examine what causes a single vote increase to occur. Next, I look at what would change the overall vote percentage by using average vote percent as the response variable. This examines what factors would increase the total share of registered voters in a county who actually turn out to vote.
@@ -664,8 +664,6 @@ In conclusion for the New York Times data, what is shown is that what is portray
 \newpage
 
 # Conclusion
-
-
 
 What this paper set out to explore is what can explain the increase in voters even when public trust in politicians is at a low. The data explored in this paper showed that this question is more complicated than it first appears. What is shown is that public trust in politicians to act in the public interest does not fully capture the complexity of voting and why people choose to participate.
 

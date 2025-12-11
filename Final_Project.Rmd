@@ -41,6 +41,7 @@ Github link: https://github.com/Zackwin73/SURVMETH-727-Final-Project
 HTML link **(HTML format is how original paper was formatted and includes the interactive plots.)** :https://rpubs.com/ZWin1234/1379120
 
 # Introduction
+
 Trust in politicians has been declining steadily throughout the 2000s, with the United States experiencing record-low levels of public confidence in elected officials to act in citizens’ best interest. Despite this decline, the 2016, 2020, and 2024 general elections saw unusually high voter turnout in the state of Florida. This raises a central question: if overall trust in politicians is consistently falling, why are citizens still turning out to vote at high rates?
 
 This period of time is especially important to examine because it spans several major national events things includes the years immediately before the COVID-19 pandemic, the pandemic itself, and the subsequent recovery. One might expect that declining trust during such crises would lead individuals to disengage from politics rather than participate. Yet turnout increased. This paper investigates what factors may motivate citizens to vote even when trust in political leaders is low and explores what might explain the persistence of electoral participation in the face of widespread distrust.
@@ -395,7 +396,6 @@ What this graph of all the counties movement shows is that voting percent seems 
 
 This paper seeks to explore some of the reasons why a voter will go out of their way to cast a vote. I address this by examining three different data sets. First, I explore census data. At the county level, I examine which aspects, such as population size, household income, or other demographic measures, can help explain voting. Second, I look at the number of COVID cases in each county to see whether the largest public health and financial turmoil in recent history had any effect on the rate of change in voting within each county. Finally, I explore media coverage, specifically the type of news the New York Times released about Florida politicians. I examine the frequency of words used and the sentiment behind the articles to see how the media could influence voters perspective on politicians.
 
-
 # Census Exploration 
 First, when examining what could be explanatory of voting, it is important to look at county-level demographics and statistics that could help explain voting patterns. This is because county-level data allows us to better examine trends, since the demographics and lifestyles of voters can differ widely from one county to another. To accomplish this, I used data from the Census to gather county-level information in Florida. Using the Census API, I collected the 5-year ACS data to compare demographic measures and merged them with the data I scraped from the Florida election website. The reason for choosing the 5-year ACS data is that the 2020 and 2024 1-year ACS datasets are not suitable for representative county-level analysis. The 2024 1-year ACS is not accessible, and the 2020 1-year ACS is considered an experimental survey that is not comparable to other 1-year estimates. To address this, I relied on the 5-year ACS and averaged the vote percentages from the Florida election data for the years that fall within that ACS time frame, which are 2016 and 2020. This allows me to examine which demographic factors could influence the increasing vote percentages across counties. This data set focuses on what might motivate a person to vote even when the public, on average, shows low trust in politicians, helping explain why distrust does not necessarily prevent individuals from voting. 
 
@@ -527,7 +527,6 @@ combined_turnout_16_20 <- t16 %>%
   rename(county = County)
 
 ```
-
 
 ```{r include=FALSE}
 final_census_merged_1 <- acs_2020_5yr %>%
@@ -924,7 +923,6 @@ ggplot(plot_data, aes(x = Frequency, y = reorder(word, Frequency))) +
   theme(
     plot.title = element_text(size = 18, face = "bold")
   )
-
 ```
 
 
@@ -943,7 +941,6 @@ if(!require('huggingfaceR')) devtools::install_github("farach/huggingfaceR")
 
 library(huggingfaceR)
 library(tidyverse)
-
 ```
 
 ```{r include=FALSE}
@@ -951,7 +948,6 @@ distilBERT <- hf_load_pipeline(
   model_id = "distilbert-base-uncased-finetuned-sst-2-english",
   task = "text-classification"
 )
-
 ```
 
 ```{r include=FALSE}
@@ -966,13 +962,11 @@ articles_2020$text <- paste(
   articles_2020$abstract,
   articles_2020$lead
 )
-
 ```
 
 ```{r include=FALSE}
 sent_2016_raw <- distilBERT(articles_2016$text)
 sent_2020_raw <- distilBERT(articles_2020$text)
-
 ```
 
 ```{r include=FALSE}
@@ -1022,7 +1016,6 @@ df_sent
 ```
 
 ```{r echo=FALSE}
-
 ggplot(df_sent, aes(x = sentiment, fill = factor(year))) +
   geom_density(alpha = 0.5) +
   theme_minimal() +
@@ -1031,7 +1024,6 @@ ggplot(df_sent, aes(x = sentiment, fill = factor(year))) +
     x = "Sentiment Score",
     fill = "Year"
   )
-
 ```
 
 What is shown in this plot is that the highest density of articles contains words that score at the strongest ends of the sentiment analysis scale. There are very few articles that have extremely strong sentiment scores. Another thing that stands out is that the peaks for both 2020 and 2016 are at both ends of the scale. This suggests that the highest density of articles uses strong language in their headlines.
